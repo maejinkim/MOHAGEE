@@ -12,7 +12,6 @@
         <activity android:name=".activity.MainActivity">
         </activity>
 
-
         <activity android:name=".activity.SignInActivity"
             android:theme="@style/SplashTheme">
             <intent-filter>
@@ -21,6 +20,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>
