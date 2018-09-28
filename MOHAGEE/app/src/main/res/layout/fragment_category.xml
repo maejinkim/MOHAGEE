@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:text="카테고리 선택"
+        android:gravity="center"
+        android:textSize="10pt"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"/>
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:stretchColumns="*">
+
+        <TableRow>
+            <TextView
+                android:id="@+id/txt_main_category"
+                android:layout_height="30dp"
+                android:gravity="center"
+                android:background="#ffeeb5"
+                android:text="대분류 선택">
+            </TextView>
+
+            <TextView
+                android:id="@+id/txt_small_category"
+                android:layout_height="30dp"
+                android:gravity="center"
+
+                android:background="#ffd754"
+                android:text="소분류 선택">
+            </TextView>
+
+        </TableRow>
+
+
+        <TableRow>
+            <ListView
+                android:id="@+id/list_main_category"
+                android:background="#ffeeb5">
+            </ListView>
+
+            <ListView
+                android:id="@+id/list_small_category"
+                android:background="#ffd754">
+            </ListView>
+        </TableRow>
+
+    </TableLayout>
+
+</LinearLayout>

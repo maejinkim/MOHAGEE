@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:id="@+id/img_detail"
+        android:background="#c8c8c8"/>
+
+    <GridLayout
+        android:layout_margin="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
+        android:orientation="horizontal"
+        android:columnCount="3"
+        android:layout_gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="장소 이름"
+            android:gravity="center"
+            android:textSize="12pt"
+            android:layout_gravity="fill"
+            android:id="@+id/txt_detail_name"
+            android:layout_columnSpan="3"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:id="@+id/txt_detail_mc"
+            android:text="대분류"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text=">"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:id="@+id/txt_detail_sc"
+            android:text="소분류"/>
+
+    </GridLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/txt_detail_content"
+        android:gravity="center"
+        android:text="내용 뭐들어갈지 쏼라쏼라"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/txt_detail_review"
+        android:gravity="center"
+        android:textColor="#006bd5"
+        android:text="#리뷰 #모하지 #화이팅 #성공적"/>
+
+    <TableLayout
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:stretchColumns="*">
+
+        <TableRow>
+            <Button
+                android:text="영업 시간"
+                />
+
+            <Button
+                android:text="메뉴"
+                />
+            <Button
+                android:text="관련장소"
+                />
+        </TableRow>
+
+    </TableLayout>
+
+    <FrameLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ffdada">
+
+    </FrameLayout>
+
+</LinearLayout>
