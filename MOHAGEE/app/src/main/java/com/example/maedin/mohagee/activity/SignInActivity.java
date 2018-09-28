@@ -12,6 +12,7 @@ import com.example.maedin.mohagee.R;
 public class SignInActivity extends AppCompatActivity implements View.OnClickListener{
 
     Button btnLogin;
+    Button btnSignup;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -19,7 +20,11 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         setContentView(R.layout.activity_signin);
 
         btnLogin = findViewById(R.id.btn_login);
+        btnSignup=findViewById(R.id.btn_signup);
         btnLogin.setOnClickListener(this);
+        btnSignup.setOnClickListener(this);
+
+
     }
 
     @Override
@@ -27,8 +32,13 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         switch (v.getId())
         {
             case R.id.btn_login:
+        {
+            startActivity(new Intent(this, MainActivity.class));
+            break;
+        }
+            case R.id.btn_signup:
             {
-                startActivity(new Intent(this, MainActivity.class));
+                startActivity(new Intent(this, SignUpActivity.class));
                 break;
             }
         }
