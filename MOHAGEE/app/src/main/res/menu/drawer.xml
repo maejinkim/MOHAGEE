@@ -2,13 +2,26 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/drawer_home"
+            android:id="@+id/menu_home"
             android:checked="true"
-            android:title="HOME" />
+            android:title="홈 화면" />
 
         <item
-            android:id="@+id/temp1"
-            android:title="임시화면" />
+            android:id="@+id/menu_search"
+            android:title="추천 경로 검색" />
+
+        <item
+            android:id="@+id/menu_category"
+            android:title="카테고리별 보기" />
+
+        <item
+            android:id="@+id/menu_custom"
+            android:title="커스텀 경로" />
+
+        <item
+            android:id="@+id/menu_setting"
+            android:title="환경설정" />
+
     </group>
 
 

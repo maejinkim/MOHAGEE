@@ -10,17 +10,15 @@ import android.view.ViewGroup;
 
 import com.example.maedin.mohagee.R;
 
-public class Temp1 extends Fragment{
+public class CategoryFragment extends Fragment {
 
     View view;
-
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        view = inflater.inflate(R.layout.fragment_temp1, container, false);
-
+        view = inflater.inflate(R.layout.fragment_category, container, false);
         return view;
     }
 }

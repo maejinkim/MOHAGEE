@@ -12,6 +12,9 @@
         <activity android:name=".activity.MainActivity">
         </activity>
 
+        <activity android:name=".activity.SignUpActivity">
+        </activity>
+
         <activity android:name=".activity.SignInActivity"
             android:theme="@style/SplashTheme">
             <intent-filter>

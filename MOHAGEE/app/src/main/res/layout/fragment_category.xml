@@ -21,7 +21,7 @@
                 android:id="@+id/txt_main_category"
                 android:layout_height="30dp"
                 android:gravity="center"
-                android:background="#ffeeb5"
+                android:background="#ffd754"
                 android:text="대분류 선택">
             </TextView>
 
@@ -30,7 +30,7 @@
                 android:layout_height="30dp"
                 android:gravity="center"
 
-                android:background="#ffd754"
+                android:background="#ffeeb5"
                 android:text="소분류 선택">
             </TextView>
 
@@ -40,12 +40,12 @@
         <TableRow>
             <ListView
                 android:id="@+id/list_main_category"
-                android:background="#ffeeb5">
+                android:background="#ffd754">
             </ListView>
 
             <ListView
                 android:id="@+id/list_small_category"
-                android:background="#ffd754">
+                android:background="#ffeeb5">
             </ListView>
         </TableRow>
 

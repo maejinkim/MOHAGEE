@@ -2,54 +2,66 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="200dp"
+    android:layout_height="180dp"
     android:background="?attr/colorPrimaryDark"
     android:padding="16dp"
     android:theme="@style/ThemeOverlay.AppCompat.Dark"
-    android:gravity="bottom">d
+    android:gravity="bottom">
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:gravity="right"
+            android:text="MOHAGEE"
+            android:layout_marginBottom="40dp"/>
+
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginBottom="30dp">
+        android:layout_marginBottom="20dp">
 
-        <ImageView
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:background="#ffffff" />
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="60dp"
-            android:layout_marginLeft="20dp"
-            android:textSize="30dp"
-            android:gravity="center_vertical"
-            android:text="MOHAGEE"   />
+            android:layout_height="wrap_content"
+            android:text="모하지"
+            android:id="@+id/txt_userName"
+            android:textSize="30dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="님 환영합니다!"
+            />
 
     </LinearLayout>
-
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="80dp"
-            android:layout_height="30dp"
-            android:text="ㅇㅇㅇ 님"
-            android:id="@+id/txt_userName"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mypage"
+            android:background = "@drawable/btn_design3"
+            android:textColor="@color/colorPrimaryDark"
+            android:id="@+id/btn_mypage"
+            android:layout_marginRight="20dp"
+            />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Logout"
-
-            android:background = "#ffffff"
-            android:textColor="#8e8e8e"
+            android:background = "@drawable/btn_design3"
+            android:textColor="@color/colorPrimaryDark"
             android:id="@+id/btn_logout"/>
 
     </LinearLayout>
-    
+
 </LinearLayout>

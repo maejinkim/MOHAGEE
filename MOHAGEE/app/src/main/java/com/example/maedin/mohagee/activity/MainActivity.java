@@ -1,5 +1,6 @@
 package com.example.maedin.mohagee.activity;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -15,14 +16,19 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.maedin.mohagee.R;
+import com.example.maedin.mohagee.fragment.CategoryFragment;
+import com.example.maedin.mohagee.fragment.CustomFragment;
 import com.example.maedin.mohagee.fragment.HomeFragment;
-import com.example.maedin.mohagee.fragment.Temp1;
+import com.example.maedin.mohagee.fragment.MypageFragmet;
+import com.example.maedin.mohagee.fragment.SearchFragment;
+import com.example.maedin.mohagee.fragment.SettingFragment;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener{
 
     private DrawerLayout drawerLayout;
-    TextView user_name;
-    Button btn_logout;
+    TextView userName;
+    Button btnLogout;
+    Button btnMypage;
 
     View headerView;
 
@@ -42,11 +48,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
 
         headerView = navigationView.getHeaderView(0);
-        user_name = (TextView) headerView.findViewById(R.id.txt_userName);
+        userName = (TextView) headerView.findViewById(R.id.txt_userName);
         //user_name.setText(memberInfoItem.user_name + " 님");
 
-        btn_logout = (Button) headerView.findViewById(R.id.btn_logout) ;
-        btn_logout.setOnClickListener(this);
+        btnLogout = (Button) headerView.findViewById(R.id.btn_logout) ;
+        btnLogout.setOnClickListener(this);
+
+        btnMypage = (Button) headerView.findViewById(R.id.btn_mypage) ;
+        btnMypage.setOnClickListener(this);
+
 
         getSupportFragmentManager()
                 .beginTransaction()
@@ -75,12 +85,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         FragmentManager manager = getSupportFragmentManager();
 
         switch (item.getItemId()) {
-            case R.id.drawer_home:
+            case R.id.menu_home:
                 manager.beginTransaction().replace(R.id.content_main, new HomeFragment()).commit();
                 break;
 
-            case R.id.temp1:
-                manager.beginTransaction().replace(R.id.content_main, new Temp1()).commit();
+            case R.id.menu_search:
+                manager.beginTransaction().replace(R.id.content_main, new SearchFragment()).commit();
+                break;
+
+            case R.id.menu_custom:
+                manager.beginTransaction().replace(R.id.content_main, new CustomFragment()).commit();
+                break;
+
+            case R.id.menu_category:
+                manager.beginTransaction().replace(R.id.content_main, new CategoryFragment()).commit();
+                break;
+
+            case R.id.menu_setting:
+                manager.beginTransaction().replace(R.id.content_main, new SettingFragment()).commit();
                 break;
         }
 
@@ -90,10 +112,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-    public void ChangeFragment(Fragment fragment)
+    public void changeFragment(Fragment fragment)
     {
         FragmentManager manager = getSupportFragmentManager();
         manager.beginTransaction().replace(R.id.content_main, fragment).commit();
+        drawerLayout.closeDrawer(GravityCompat.START);//Drawer를 닫음
     }
 
 
@@ -103,7 +126,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         {
             case R.id.btn_logout:
             {
+                startActivity(new Intent(this, SignInActivity.class));
                 finish();
+                break;
+            }
+
+            case R.id.btn_mypage:
+            {
+                changeFragment(new MypageFragmet());
                 break;
             }
         }
