@@ -3,13 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="c1ccd4a0-0870-4f07-b911-9795aa8c5422" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/../.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MOHAGEE_python/Recommend_algorithm/LDA.py" beforeDir="false" afterPath="$PROJECT_DIR$/MOHAGEE_python/Recommend_algorithm/LDA.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MOHAGEE_python/Recommend_algorithm/data/constitution.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MOHAGEE_python/Recommend_algorithm/data/data.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MOHAGEE_python/Recommend_algorithm/data/ratings_run.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MOHAGEE_python/Recommend_algorithm/data/ratings_test.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MOHAGEE_python/Recommend_algorithm/data/ratings_train.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MOHAGEE_python/Recommend_algorithm/data/temp.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MOHAGEE_python/wordvectors" beforeDir="false" afterPath="$PROJECT_DIR$/MOHAGEE_python/wordvectors" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MOHAGEE_python/wordvectors/build_corpus.py" beforeDir="false" afterPath="$PROJECT_DIR$/MOHAGEE_python/wordvectors/build_corpus.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MOHAGEE_python/wordvectors/make_wordvectors.py" beforeDir="false" afterPath="$PROJECT_DIR$/MOHAGEE_python/wordvectors/make_wordvectors.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MOHAGEE_python/wordvectors/make_wordvectors.sh" beforeDir="false" afterPath="$PROJECT_DIR$/MOHAGEE_python/wordvectors/make_wordvectors.sh" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -304,7 +301,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1309" y="24" width="1251" height="1056" extended-state="5" />
+    <frame x="1309" y="24" width="1251" height="1056" extended-state="4" />
     <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25766364" />
