@@ -6,7 +6,7 @@ from konlpy.utils import pprint
 import codecs
 import gensim
 from gensim import corpora, models
-from gensim.models import CoherenceModel
+from gensim.models import CoherenceModel, KeyedVectors
 import os
 from collections import Counter
 import random; random.seed(0)
@@ -21,43 +21,92 @@ from soynlp.word import WordExtractor
 from soykeyword.lasso import LassoKeywordExtractor
 from soykeyword.proportion import CorpusbasedKeywordExtractor
 import soykeyword
+from gensim.models.keyedvectors import KeyedVectors
+from os import listdir
+from os.path import isfile, join
 
 warnings.filterwarnings(action='ignore')
+
+files = [f for f in listdir('./data') if isfile(join('./data', f))]
 
 
 okt = Okt()
 
 
 def read_data(filename):
-    with open(filename, 'r') as f:
-        data = [line.split('\t') for line in f.read().splitlines()]
+    with open(filename, 'rb',) as f:
+        data = [line.decode("cp949", errors='ignore') for line in f.read().splitlines()]
     return data
 
 def tokenize(doc):
   # norm, stem은 optional
   return ["".join(t) for t in okt.nouns(doc)]
 
-
-train_doc = read_data('data/ratings_test.txt')
-noun = [tokenize(row[1]) for row in train_doc]
+train_doc = []
 
 
-dictionary = corpora.Dictionary(noun)
-corpus = [dictionary.doc2bow(text) for text in noun]
+print("apply Word2vec model...")
+embedding_model = gensim.models.Word2Vec.load('word2vec.model')
 
-ldamodel = gensim.models.ldamodel.LdaModel(corpus=corpus,
-                                           num_topics=3,
-                                           id2word=dictionary,
-                                           random_state=100,
-                                           passes=30,
-                                           alpha='auto')
+print("start LDA...")
+for review_name in files:
+    filters = ["재미", "꿀맛", "아늑", "핫", "데이트", "가족", "나들이"]
+    train_doc = read_data('data/'+ review_name)
+    noun = [tokenize(row) for row in train_doc]
+    dictionary = corpora.Dictionary(noun)
+    corpus = [dictionary.doc2bow(text) for text in noun]
+
+    ldamodel = gensim.models.ldamodel.LdaModel(corpus=corpus,
+                                               num_topics=3,
+                                               id2word=dictionary,
+                                               random_state=100,
+                                               passes=30,
+                                               alpha='auto')
 
 
-print(ldamodel.get_topics())
-print(ldamodel.print_topics(num_topics=3, num_words=30))
+    temps = ldamodel.print_topics(num_topics=20, num_words=5)
+    #embedding_model = gensim.models.Word2Vec.load('./all_vectorize.bin')
+    #print(embedding_model.most_similar("재미"))
+    new_words = []
+    sums = []
+    for filt in filters:
+        sum = 0
+        for temp in temps:
+            k = temp[1]
+            k = k.split('+')
+            for i in k:
+                i = i.split('*')
+                temp_noun = i[1].split('"')
+                new_words.append(temp_noun[1])
+    #필터 돌리기
+    for filt in filters:
+        sum = 0
+        #
+        for temp in temps:
+            k = temp[1]
+            k = k.split('+')
+            for i in k:
+                i = i.split('*')
+                i[0] = float(i[0])
+                for word in new_words:
+                    sum = sum + float(i[0]*embedding_model.similarity(filt, word))
+                sums.append(sum)
+                break
+            break
+    print(review_name, filters[sums.index(max(sums))])
+    temp_index = sums.index(max(sums))
 
-embedding_model = Word2Vec(noun, size=100, window=2, min_count=50, workers=4, iter=100,sg=1)
-print(embedding_model.most_similar(positive=["재미"], topn=100))
+    filters.pop(temp_index)
+    sums.pop(temp_index)
+
+    print(review_name, filters[sums.index(max(sums))])
+    sums.clear()
+    new_words.clear()
+    noun.clear()
+#embedding_model = gensim.models.KeyedVectors.load_word2vec_format('./ko.bin', binary=True)
+
+#embedding_model = Word2Vec(noun, size=100, window=2, min_count=50, workers=4, iter=100,sg=1)
+
 #doc_lda = ldamodel[corpus]
 
 
