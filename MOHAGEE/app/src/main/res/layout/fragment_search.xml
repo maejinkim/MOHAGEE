@@ -2,13 +2,286 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <RelativeLayout
+        android:id="@+id/select_where"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp">
+        <TextView
+            android:layout_marginLeft="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/where_when_topic"
+            android:text="언제 어디서 모하지?"
+            android:textColor="#000000"
+            />
+
+        <Button
+            android:layout_marginLeft="20dp"
+
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/where_when_topic"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:id="@+id/where_button"
+            android:background="@drawable/button_round"
+            android:text="#지역 선택"
+            />
+        <Button
+            android:layout_marginTop="20dp"
+
+            android:layout_below="@+id/where_when_topic"
+            android:id="@+id/when_button"
+            android:layout_toRightOf="@+id/where_button"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/button_round"
+            android:text="#기간 선택"
+            />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:background="#DCDCDC"
+        >
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/select_who"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp">
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/who_topic"
+            android:text="누구랑 모하지?"
+            android:textColor="#000000"
+            />
+
+        <Button
+            android:layout_marginLeft="20dp"
+
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/who_topic"
+            android:layout_width="70dp"
+            android:layout_height="30dp"
+            android:id="@+id/solo"
+            android:background="@drawable/button_round"
+            android:text="#혼자"
+            />
+        <Button
+            android:layout_marginTop="20dp"
+
+            android:layout_below="@+id/who_topic"
+            android:id="@+id/with_friend"
+            android:layout_toRightOf="@+id/solo"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/button_round"
+            android:text="#친구랑"
+            />
+        <Button
+            android:layout_marginTop="20dp"
+
+            android:layout_below="@+id/who_topic"
+            android:id="@+id/with_parent"
+            android:layout_toRightOf="@+id/with_friend"
+            android:layout_width="130dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/button_round"
+            android:text="#부모님과 함께"
+            />
+        <Button
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/solo"
+            android:id="@+id/doing_date"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/button_round"
+            android:text="#데이트"
+            />
+        <Button
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/solo"
+            android:id="@+id/with_children"
+            android:layout_width="130dp"
+            android:layout_height="30dp"
+            android:layout_toRightOf="@+id/doing_date"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/button_round"
+            android:text="#아이들과 함께"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:background="#DCDCDC"
+        >
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/select_activity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp">
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/activity_topic"
+            android:text="이제 모하지?"
+            android:textColor="#000000"
+            />
+
+        <Button
+            android:layout_marginLeft="20dp"
+
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/activity_topic"
+            android:layout_width="70dp"
+            android:layout_height="30dp"
+            android:id="@+id/resturant"
+            android:background="@drawable/button_round"
+            android:text="#맛집"
+            />
+        <Button
+            android:layout_marginTop="20dp"
+
+            android:layout_below="@+id/activity_topic"
+            android:id="@+id/cafe"
+            android:layout_toRightOf="@+id/resturant"
+            android:layout_width="70dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/button_round"
+            android:text="#카페"
+            />
+        <Button
+            android:layout_marginTop="20dp"
+
+            android:layout_below="@+id/activity_topic"
+            android:id="@+id/billiard"
+            android:layout_toRightOf="@+id/cafe"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/button_round"
+            android:text="#당구장"
+            />
+        <Button
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/resturant"
+            android:id="@+id/bowling"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/button_round"
+            android:text="#볼링장"
+            />
+        <Button
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/resturant"
+            android:id="@+id/pc_room"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:layout_toRightOf="@+id/bowling"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/button_round"
+            android:text="#pc 방"
+            />
+        <Button
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/resturant"
+            android:id="@+id/room_escape"
+            android:layout_width="120dp"
+            android:layout_height="30dp"
+            android:layout_toRightOf="@+id/pc_room"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/button_round"
+            android:text="#방탈출카페"
+            />
+        <Button
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/bowling"
+            android:id="@+id/exhibition"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/button_round"
+            android:text="#전시회"
+            />
+        <Button
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/bowling"
+            android:id="@+id/theater"
+            android:layout_width="70dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/exhibition"
+            android:background="@drawable/button_round"
+            android:text="#연극"
+            />
+        <Button
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/bowling"
+            android:id="@+id/cinema"
+            android:layout_width="70dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/theater"
+            android:background="@drawable/button_round"
+            android:text="#영화"
+            />
+        <Button
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/exhibition"
+            android:id="@+id/park"
+            android:layout_width="70dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/button_round"
+            android:text="#공원"
+            />
+        <Button
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/exhibition"
+            android:id="@+id/shopping"
+            android:layout_width="70dp"
+            android:layout_height="30dp"
+            android:layout_toRightOf="@+id/park"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/button_round"
+            android:text="#쇼핑"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:background="#DCDCDC"
+        >
+
+    </RelativeLayout>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:gravity="center"
         android:text="검색창"
-        android:textSize="10pt"/>
+        android:textSize="10pt" />
+
 
     <Button
         android:layout_width="match_parent"
