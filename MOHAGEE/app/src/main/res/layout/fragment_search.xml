@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="20dp">
+<LinearLayout
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
     <RelativeLayout
         android:id="@+id/select_where"
         android:layout_width="wrap_content"
@@ -12,8 +19,8 @@
             android:layout_marginLeft="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/where_when_topic"
-            android:text="언제 어디서 모하지?"
+            android:id="@+id/when_topic"
+            android:text="언제 모하지?"
             android:textColor="#000000"
             />
 
@@ -21,24 +28,24 @@
             android:layout_marginLeft="20dp"
 
             android:layout_marginTop="20dp"
-            android:layout_below="@+id/where_when_topic"
+            android:layout_below="@+id/when_topic"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:id="@+id/where_button"
             android:background="@drawable/button_round"
-            android:text="#지역 선택"
+            android:text="#지금 당장"
             />
         <Button
             android:layout_marginTop="20dp"
 
-            android:layout_below="@+id/where_when_topic"
+            android:layout_below="@+id/when_topic"
             android:id="@+id/when_button"
             android:layout_toRightOf="@+id/where_button"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:layout_marginLeft="10dp"
             android:background="@drawable/button_round"
-            android:text="#기간 선택"
+            android:text="#나중에"
             />
     </RelativeLayout>
     <RelativeLayout
@@ -50,9 +57,39 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:background="#FFFFFF"
+        >
+        <TextView
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/where_topic"
+            android:text="언제 모하지?"
+            android:textColor="#000000"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#000000">
+
+        <com.google.android.gms.maps.MapView
+            android:id="@+id/map_part"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:name="com.google.android.gms.maps.MapFragment"
+            />
+
+    </RelativeLayout>
+
+    <RelativeLayout
         android:id="@+id/select_who"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="140dp"
         android:layout_marginBottom="10dp">
         <TextView
             android:layout_marginTop="10dp"
@@ -72,12 +109,13 @@
             android:layout_width="70dp"
             android:layout_height="30dp"
             android:id="@+id/solo"
+            android:textColor="@drawable/text_selector"
             android:background="@drawable/button_round"
             android:text="#혼자"
             />
         <Button
             android:layout_marginTop="20dp"
-
+            android:textColor="@drawable/text_selector"
             android:layout_below="@+id/who_topic"
             android:id="@+id/with_friend"
             android:layout_toRightOf="@+id/solo"
@@ -89,7 +127,7 @@
             />
         <Button
             android:layout_marginTop="20dp"
-
+            android:textColor="@drawable/text_selector"
             android:layout_below="@+id/who_topic"
             android:id="@+id/with_parent"
             android:layout_toRightOf="@+id/with_friend"
@@ -107,6 +145,7 @@
             android:layout_height="30dp"
             android:layout_marginLeft="20dp"
             android:background="@drawable/button_round"
+            android:textColor="@drawable/text_selector"
             android:text="#데이트"
             />
         <Button
@@ -116,6 +155,8 @@
             android:layout_width="130dp"
             android:layout_height="30dp"
             android:layout_toRightOf="@+id/doing_date"
+            android:textColor="@drawable/text_selector"
+
             android:layout_marginLeft="10dp"
             android:background="@drawable/button_round"
             android:text="#아이들과 함께"
@@ -133,7 +174,8 @@
     <RelativeLayout
         android:id="@+id/select_activity"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+
+        android:layout_height="220dp"
         android:layout_marginBottom="10dp">
         <TextView
             android:layout_marginTop="10dp"
@@ -147,6 +189,7 @@
 
         <Button
             android:layout_marginLeft="20dp"
+            android:textColor="@drawable/text_selector"
 
             android:layout_marginTop="20dp"
             android:layout_below="@+id/activity_topic"
@@ -158,6 +201,7 @@
             />
         <Button
             android:layout_marginTop="20dp"
+            android:textColor="@drawable/text_selector"
 
             android:layout_below="@+id/activity_topic"
             android:id="@+id/cafe"
@@ -170,6 +214,7 @@
             />
         <Button
             android:layout_marginTop="20dp"
+            android:textColor="@drawable/text_selector"
 
             android:layout_below="@+id/activity_topic"
             android:id="@+id/billiard"
@@ -188,6 +233,8 @@
             android:layout_height="30dp"
             android:layout_marginLeft="20dp"
             android:background="@drawable/button_round"
+            android:textColor="@drawable/text_selector"
+
             android:text="#볼링장"
             />
         <Button
@@ -197,6 +244,8 @@
             android:layout_width="80dp"
             android:layout_height="30dp"
             android:layout_toRightOf="@+id/bowling"
+            android:textColor="@drawable/text_selector"
+
             android:layout_marginLeft="10dp"
             android:background="@drawable/button_round"
             android:text="#pc 방"
@@ -207,6 +256,8 @@
             android:id="@+id/room_escape"
             android:layout_width="120dp"
             android:layout_height="30dp"
+            android:textColor="@drawable/text_selector"
+
             android:layout_toRightOf="@+id/pc_room"
             android:layout_marginLeft="10dp"
             android:background="@drawable/button_round"
@@ -216,6 +267,8 @@
             android:layout_marginTop="10dp"
             android:layout_below="@+id/bowling"
             android:id="@+id/exhibition"
+            android:textColor="@drawable/text_selector"
+
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:layout_marginLeft="20dp"
@@ -228,6 +281,8 @@
             android:id="@+id/theater"
             android:layout_width="70dp"
             android:layout_height="30dp"
+            android:textColor="@drawable/text_selector"
+
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/exhibition"
             android:background="@drawable/button_round"
@@ -238,6 +293,8 @@
             android:layout_below="@+id/bowling"
             android:id="@+id/cinema"
             android:layout_width="70dp"
+            android:textColor="@drawable/text_selector"
+
             android:layout_height="30dp"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/theater"
@@ -249,6 +306,8 @@
             android:layout_below="@+id/exhibition"
             android:id="@+id/park"
             android:layout_width="70dp"
+            android:textColor="@drawable/text_selector"
+
             android:layout_height="30dp"
             android:layout_marginLeft="20dp"
             android:background="@drawable/button_round"
@@ -259,6 +318,8 @@
             android:layout_below="@+id/exhibition"
             android:id="@+id/shopping"
             android:layout_width="70dp"
+            android:textColor="@drawable/text_selector"
+
             android:layout_height="30dp"
             android:layout_toRightOf="@+id/park"
             android:layout_marginLeft="10dp"
@@ -296,3 +357,5 @@
 
 
 </LinearLayout>
+</ScrollView>
+</FrameLayout>
