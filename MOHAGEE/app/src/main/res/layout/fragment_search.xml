@@ -83,8 +83,14 @@
             android:layout_height="180dp"
             android:name="com.google.android.gms.maps.MapFragment"
             />
+        <Button
+            android:id="@+id/over_map_button"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:background="#00ff0000"/>
 
     </RelativeLayout>
+
 
     <RelativeLayout
         android:id="@+id/select_who"
@@ -103,7 +109,6 @@
 
         <Button
             android:layout_marginLeft="20dp"
-
             android:layout_marginTop="20dp"
             android:layout_below="@+id/who_topic"
             android:layout_width="70dp"

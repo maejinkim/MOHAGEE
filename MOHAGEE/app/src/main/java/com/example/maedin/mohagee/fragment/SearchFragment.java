@@ -2,18 +2,24 @@ package com.example.maedin.mohagee.fragment;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.view.View.OnClickListener;
+import android.widget.EditText;
 
 import com.example.maedin.mohagee.R;
+import com.example.maedin.mohagee.activity.MainActivity;
+import com.example.maedin.mohagee.activity.SearchActivity;
 import com.example.maedin.mohagee.activity.SignInActivity;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -21,6 +27,9 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.io.IOException;
+import java.util.List;
 
 public class SearchFragment extends Fragment implements View.OnClickListener, OnMapReadyCallback {
 
@@ -36,7 +45,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener, On
 
     View view;
     Button where_button, when_button, solo, with_friend, with_parent, doing_date, with_children, resturant, cafe, billiard;
-    Button bowling, pc_room, room_escape, exhibition, theater, cinema, park, shopping;
+    Button bowling, pc_room, room_escape, exhibition, theater, cinema, park, shopping,over_map_button;
 
     @Nullable
     @Override
@@ -46,6 +55,9 @@ public class SearchFragment extends Fragment implements View.OnClickListener, On
 
         mapView = (MapView)view.findViewById(R.id.map_part);
         mapView.getMapAsync(this);
+
+        over_map_button = (Button)view.findViewById(R.id.over_map_button);
+        over_map_button.setOnClickListener(this);
 
         where_button = (Button)view.findViewById(R.id.where_button);
         where_button.setOnClickListener(this);
@@ -263,6 +275,13 @@ public class SearchFragment extends Fragment implements View.OnClickListener, On
             }
             case R.id.shopping:
             {
+                break;
+            }
+            case R.id.over_map_button:
+            {
+                Log.d("textabc", "onClick: before");
+                startActivity(new Intent(getActivity(), SearchActivity.class));
+                Log.d("textabc", "onClick: after");
                 break;
             }
 
