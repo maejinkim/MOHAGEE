@@ -1,36 +1,58 @@
 package com.example.maedin.mohagee.activity;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.Manifest;
 import android.net.Uri;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.maedin.mohagee.R;
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 
 public class SearchActivity extends FragmentActivity implements OnMapReadyCallback {
     private GoogleMap mMap;
+    private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 2002;
     private Geocoder geocoder;
     private Button button;
+    private Location mLastKnownLocation;
     private EditText editText;
+    private Marker currentMarker = null; // 지정 위치 마커
+    private Double CurrentLat;
+    private Double CurrentLng;
+    private Location CurrentLoc;
+    private boolean mPermissionDenied = false;
+
+    private Location lastKnownLocation = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,15 +75,18 @@ public class SearchActivity extends FragmentActivity implements OnMapReadyCallba
                 Location location = new Location("");
                 location.setLatitude(place.getLatLng().latitude);
                 location.setLongitude(place.getLatLng().longitude);
-                //setCurrentLocation(location, place.getName().toString(), place.getAddress().toString());
+                mMap.clear();
+                mMap.addMarker(new MarkerOptions().position(place.getLatLng()).title(place.getName().toString()));
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(place.getLatLng()));
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(), 15));
                 // TODO: Get info about the selected place.
-                System.out.println( "Place: " + place.getName());
+                System.out.println("Place: " + place.getName());
             }
 
             @Override
             public void onError(Status status) {
                 // TODO: Handle the error.
-                System.out.println( "An error occurred: " + status);
+                System.out.println("An error occurred: " + status);
             }
         });
 
@@ -69,13 +94,93 @@ public class SearchActivity extends FragmentActivity implements OnMapReadyCallba
     }
 
 
+    public String getAddress(LatLng latLng) { // 좌표 -> 주소 변환
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+        List<Address> addresses = null;
+
+        try {
+
+            addresses = geocoder.getFromLocation(
+                    latLng.latitude,
+                    latLng.longitude,
+                    1
+            );
+        } catch (IOException e) {
+            return "주소 변환 불가";
+        } catch (IllegalArgumentException e) {
+            return "잘못된 GPS 좌표";
+        }
+
+        if (addresses == null || addresses.size() == 0) {
+            return "주소 식별 불가";
+        }
+        Address address = addresses.get(0);
+        return address.getAddressLine(0).toString();
+    }
+
+
+    public void setCurrentLoc(Location location) { // 위치 지정
+
+        if (currentMarker != null) {
+            currentMarker.remove();
+        }
+
+        if (location != null) {
+            Log.d("younho", "MY_LOC");
+            LatLng currentLatLng = new LatLng(location.getLatitude(), location.getLongitude());
+            CurrentLng = location.getLongitude();
+            CurrentLat = location.getLatitude();
+
+            MarkerOptions markerOptions = new MarkerOptions();
+            markerOptions.position(currentLatLng);
+            markerOptions.title("내 위치");
+            markerOptions.snippet(getAddress(currentLatLng));
+            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE));
+            markerOptions.draggable(true);
+
+            currentMarker = this.mMap.addMarker(markerOptions);
+
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15));
+
+
+            /*if(circle != null)
+                circle.remove();
+            circle = this.googleMap.addCircle(new CircleOptions()
+                    .center(currentLatLng)
+                    .radius(radius)
+                    .strokeColor(Color.parseColor("#884169e1"))
+                    .fillColor(Color.parseColor("#5587cefa")));*/
+            return;
+        }
+
+        // 위치를 찾을 수 없는 경우
+        Log.d("younho", "Default");
+        LatLng SEOUL = new LatLng(37.55, 126.99);
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(SEOUL);
+        markerOptions.title("서울");
+        markerOptions.snippet(getAddress(SEOUL));
+        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE));
+
+        currentMarker = mMap.addMarker(markerOptions);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(SEOUL, 10));
+    }
+
+
     @Override
     public void onMapReady(final GoogleMap googleMap) {
         mMap = googleMap;
         geocoder = new Geocoder(this);
+        mMap.getUiSettings().setCompassEnabled(true); // 나침반 설정
+
+        if (PackageManager.PERMISSION_GRANTED != ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION)) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+        }
 
         // 맵 터치 이벤트 구현 //
-        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener(){
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng point) {
                 MarkerOptions mOptions = new MarkerOptions();
@@ -136,15 +241,38 @@ public class SearchActivity extends FragmentActivity implements OnMapReadyCallba
         ////////////////////
 
         // Add a marker in Sydney and move the camera
-        LatLng SEOUL = new LatLng(37.56, 126.97);
+        setCurrentLoc(CurrentLoc);
 
-        MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(SEOUL);
-        markerOptions.title("서울");
-        mMap.addMarker(markerOptions);
 
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(SEOUL));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(10));
-        mMap.getUiSettings().setRotateGesturesEnabled(false);
+        if (PackageManager.PERMISSION_GRANTED == ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION)) { // 권한 있는 경우
+
+            Log.d("younho", "enter_granted");
+            googleMap.setMyLocationEnabled(true);
+
+            googleMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() { // 현재 위치 버튼 클릭 시
+                @Override
+                public boolean onMyLocationButtonClick() {
+                    Location location = mMap.getMyLocation();
+                    setCurrentLoc(location);
+
+                    LatLng latLng = new LatLng(currentMarker.getPosition().latitude, currentMarker.getPosition().longitude);
+                    return true;
+                }
+            });
+
+            mMap.getUiSettings().setRotateGesturesEnabled(false);
+
+        }
+
+        else {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+        }
+
+
     }
 }
+
+
+

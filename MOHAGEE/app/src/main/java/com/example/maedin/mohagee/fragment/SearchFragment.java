@@ -1,5 +1,6 @@
 package com.example.maedin.mohagee.fragment;
 
+import android.app.DialogFragment;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
@@ -41,10 +42,11 @@ public class SearchFragment extends Fragment implements View.OnClickListener, On
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     View view;
-    Button where_button, when_button, solo, with_friend, with_parent, doing_date, with_children, resturant, cafe, billiard;
+    Button after_button, right_now, solo, with_friend, with_parent, doing_date, with_children, resturant, cafe, billiard;
     Button bowling, pc_room, room_escape, exhibition, theater, cinema, park, shopping,over_map_button;
 
     @Nullable
@@ -59,11 +61,11 @@ public class SearchFragment extends Fragment implements View.OnClickListener, On
         over_map_button = (Button)view.findViewById(R.id.over_map_button);
         over_map_button.setOnClickListener(this);
 
-        where_button = (Button)view.findViewById(R.id.where_button);
-        where_button.setOnClickListener(this);
+        after_button = (Button)view.findViewById(R.id.after);
+        after_button.setOnClickListener(this);
 
-        when_button = (Button)view.findViewById(R.id.when_button);
-        when_button.setOnClickListener(this);
+        right_now = (Button)view.findViewById(R.id.right_now);
+        right_now.setOnClickListener(this);
 
         solo = (Button)view.findViewById(R.id.solo);
         solo.setOnClickListener(this);
@@ -204,12 +206,14 @@ public class SearchFragment extends Fragment implements View.OnClickListener, On
         }
         switch (v.getId())
         {
-            case R.id.where_button:
+            case R.id.after:
             {
+                DialogFragment newFragment = new TimePickerFragment();
+                //newFragment.show(((MainActivity)getActivity()).getSupportFragmentManager(), );
                 break;
             }
 
-            case R.id.when_button:
+            case R.id.right_now:
             {
                 break;
             }

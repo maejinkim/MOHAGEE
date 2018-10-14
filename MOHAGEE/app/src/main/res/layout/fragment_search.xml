@@ -31,19 +31,20 @@
             android:layout_below="@+id/when_topic"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
-            android:id="@+id/where_button"
+            android:id="@+id/right_now"
             android:background="@drawable/button_round"
+            android:textColor="@drawable/text_selector"
             android:text="#지금 당장"
             />
         <Button
             android:layout_marginTop="20dp"
-
             android:layout_below="@+id/when_topic"
-            android:id="@+id/when_button"
-            android:layout_toRightOf="@+id/where_button"
+            android:id="@+id/after"
+            android:layout_toRightOf="@+id/right_now"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:layout_marginLeft="10dp"
+            android:textColor="@drawable/text_selector"
             android:background="@drawable/button_round"
             android:text="#나중에"
             />
@@ -67,7 +68,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/where_topic"
-            android:text="언제 모하지?"
+            android:text="어디서 모하지?"
             android:textColor="#000000"
             />
     </RelativeLayout>
