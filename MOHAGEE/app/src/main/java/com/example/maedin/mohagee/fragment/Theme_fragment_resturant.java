@@ -11,14 +11,26 @@ import android.support.v4.app.FragmentManager;
 
 import com.example.maedin.mohagee.R;
 
-public class Theme_Fragment extends Fragment {
+public class Theme_fragment_resturant extends Fragment {
     View view;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState)
     {
-        view = inflater.inflate(R.layout.theme_fragment_layout1, container,false);
+        String type = getArguments().getString("Type");
+        switch (type)
+        {
+            case "cafe":
+                view = inflater.inflate(R.layout.theme_fragment_layout_cafe, container, false);
+                break;
+
+            case "resturant":
+                view = inflater.inflate(R.layout.theme_fragment_layout1, container, false);
+                break;
+
+        }
+
         return view;
     }
 }

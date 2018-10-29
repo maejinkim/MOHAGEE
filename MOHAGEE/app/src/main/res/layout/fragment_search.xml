@@ -341,13 +341,27 @@
         >
 
     </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:textColor="#000000"
+            android:background="#FFFFFF"
+            android:text="정확히 모하지?"/>
+    </RelativeLayout>
 
     <FrameLayout
         android:id="@+id/first_fragment"
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:gravity="center"
-        android:textSize="10pt">
+        android:textSize="10pt"
+        android:background="#FFFFFF">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -355,6 +369,7 @@
             android:gravity="center"
             android:textSize="20pt"
             android:textColor="#D3D3D3"
+
             />
     </FrameLayout>
 

@@ -41,6 +41,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -48,7 +49,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener,
         OnMapReadyCallback{
     Calendar calendar;
     private MapView mapView = null;
-
+    private Integer checklocation = 0;
 
 
 
@@ -238,19 +239,22 @@ public class SearchFragment extends Fragment implements View.OnClickListener,
     {
         Button b;
         b = v.findViewById(v.getId());
-        if(!b.isSelected()) {
-            b.setSelected(true);
-        }
-        else
-        {
-            b.setSelected(false);
-        }
+        Fragment fragment = new Theme_fragment_resturant();
+        Bundle bundle = new Bundle(1);
+
         switch (v.getId())
         {
             case R.id.after:
             {
                 //TimePicker mTimePicker = new TimePicker();
                 //mTimePicker.show(getActivity().getFragmentManager(), "Select time");
+                if(!b.isSelected()) {
+                    b.setSelected(true);
+                }
+                else
+                {
+                    b.setSelected(false);
+                }
 
 
                 break;
@@ -258,78 +262,230 @@ public class SearchFragment extends Fragment implements View.OnClickListener,
 
             case R.id.right_now:
             {
+                if(!b.isSelected()) {
+                    b.setSelected(true);
+                }
+                else
+                {
+                    b.setSelected(false);
+                }
+
                 break;
             }
             case R.id.solo:
             {
+                if(!b.isSelected()) {
+                    b.setSelected(true);
+                }
+                else
+                {
+                    b.setSelected(false);
+                }
+
                 break;
             }
             case R.id.with_friend:
             {
+                if(!b.isSelected()) {
+                    b.setSelected(true);
+                }
+                else
+                {
+                    b.setSelected(false);
+                }
+
                 break;
             }
             case R.id.with_parent:
             {
+                if(!b.isSelected()) {
+                    b.setSelected(true);
+                }
+                else
+                {
+                    b.setSelected(false);
+                }
+
                 break;
             }
             case R.id.doing_date:
             {
+                if(!b.isSelected()) {
+                    b.setSelected(true);
+                }
+                else
+                {
+                    b.setSelected(false);
+                }
+
                 break;
             }
             case R.id.with_children:
             {
+                if(!b.isSelected()) {
+                    b.setSelected(true);
+                }
+                else
+                {
+                    b.setSelected(false);
+                }
+
                 break;
             }
             case R.id.resturant:
             {
+                if(!b.isSelected()) {
+                    b.setSelected(true);
+                }
+                else
+                {
+                    b.setSelected(false);
+                }
+
+                bundle.putString("Type", "resturant");
+                fragment.setArguments(bundle);
+                ((MainActivity) getActivity()).getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.first_fragment , fragment)
+                        .commit();
                 break;
             }
             case R.id.cafe:
             {
+                if(!b.isSelected()) {
+                    b.setSelected(true);
+                }
+                else
+                {
+                    b.setSelected(false);
+                }
+
+                bundle.putString("Type", "cafe");
+                fragment.setArguments(bundle);
+                ((MainActivity) getActivity()).getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.first_fragment , fragment)
+                        .commit();
                 break;
             }
             case R.id.billiard:
             {
+                if(!b.isSelected()) {
+                    b.setSelected(true);
+                }
+                else
+                {
+                    b.setSelected(false);
+                }
+
                 break;
             }
             case R.id.bowling:
             {
+                if(!b.isSelected()) {
+                    b.setSelected(true);
+                }
+                else
+                {
+                    b.setSelected(false);
+                }
+
                 break;
             }
             case R.id.pc_room:
             {
+                if(!b.isSelected()) {
+                    b.setSelected(true);
+                }
+                else
+                {
+                    b.setSelected(false);
+                }
+
                 break;
             }
             case R.id.room_escape:
             {
+                if(!b.isSelected()) {
+                    b.setSelected(true);
+                }
+                else
+                {
+                    b.setSelected(false);
+                }
+
                 break;
             }
             case R.id.exhibition:
             {
+                if(!b.isSelected()) {
+                    b.setSelected(true);
+                }
+                else
+                {
+                    b.setSelected(false);
+                }
+
                 break;
             }
             case R.id.theater:
             {
+                if(!b.isSelected()) {
+                    b.setSelected(true);
+                }
+                else
+                {
+                    b.setSelected(false);
+                }
+
                 break;
             }
             case R.id.cinema:
             {
+                if(!b.isSelected()) {
+                    b.setSelected(true);
+                }
+                else
+                {
+                    b.setSelected(false);
+                }
+
                 break;
             }
             case R.id.park:
             {
+                if(!b.isSelected()) {
+                    b.setSelected(true);
+                }
+                else
+                {
+                    b.setSelected(false);
+                }
+
                 break;
             }
             case R.id.shopping:
             {
-                ((MainActivity) getActivity()).getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.first_fragment , new Theme_Fragment())
-                        .commit();
+                if(!b.isSelected()) {
+                    b.setSelected(true);
+                }
+                else
+                {
+                    b.setSelected(false);
+                }
+
                 break;
             }
             case R.id.over_map_button:
             {
+                if(!b.isSelected()) {
+                    b.setSelected(true);
+                }
+                else
+                {
+                    b.setSelected(false);
+                }
+
                 Log.d("textabc", "onClick: before");
                 startActivity(new Intent(getActivity(), SearchActivity.class));
                 Log.d("textabc", "onClick: after");
