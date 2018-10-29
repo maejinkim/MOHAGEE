@@ -1,11 +1,14 @@
 package com.example.maedin.mohagee.fragment;
 
+import android.app.DatePickerDialog;
 import android.app.DialogFragment;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
+import android.provider.CalendarContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.view.View.OnClickListener;
+import android.widget.DatePicker;
 import android.widget.EditText;
 
 import com.example.maedin.mohagee.R;
@@ -29,12 +33,26 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.io.IOException;
+import android.app.Dialog;
+import android.app.TimePickerDialog;
+import android.os.Bundle;
+import android.text.format.DateFormat;
+import android.widget.TextView;
+import android.widget.TimePicker;
+import android.widget.Toast;
+
+import java.util.Calendar;
 import java.util.List;
 
-public class SearchFragment extends Fragment implements View.OnClickListener, OnMapReadyCallback {
-
+public class SearchFragment extends Fragment implements View.OnClickListener,
+        OnMapReadyCallback{
+    Calendar calendar;
     private MapView mapView = null;
+
+
+
+
+    FragmentTransaction tran;
 
     public SearchFragment()
     {}
@@ -44,6 +62,27 @@ public class SearchFragment extends Fragment implements View.OnClickListener, On
         super.onCreate(savedInstanceState);
 
     }
+
+    public static class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener
+    {
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState)
+        {
+            final Calendar c = Calendar.getInstance();
+            int year = c.get(Calendar.YEAR);
+            int month = c.get(Calendar.MONTH);
+            int day = c.get(Calendar.DAY_OF_MONTH);
+            return new DatePickerDialog((MainActivity)getActivity(), this,year,month,day);
+
+        }
+        public void onDateSet(DatePicker view, int year, int month, int day)
+        {
+            Toast.makeText (getActivity(), String.valueOf(year)+ "-" + String.valueOf(month) + "-" + String.valueOf(day), Toast.LENGTH_LONG).show();
+        }
+
+    }
+
+
 
     View view;
     Button after_button, right_now, solo, with_friend, with_parent, doing_date, with_children, resturant, cafe, billiard;
@@ -114,6 +153,8 @@ public class SearchFragment extends Fragment implements View.OnClickListener, On
 
         shopping = (Button)view.findViewById(R.id.shopping);
         shopping.setOnClickListener(this);
+
+
 
 
         return view;
@@ -208,8 +249,10 @@ public class SearchFragment extends Fragment implements View.OnClickListener, On
         {
             case R.id.after:
             {
-                DialogFragment newFragment = new TimePickerFragment();
-                //newFragment.show(((MainActivity)getActivity()).getSupportFragmentManager(), );
+                //TimePicker mTimePicker = new TimePicker();
+                //mTimePicker.show(getActivity().getFragmentManager(), "Select time");
+
+
                 break;
             }
 
@@ -279,6 +322,10 @@ public class SearchFragment extends Fragment implements View.OnClickListener, On
             }
             case R.id.shopping:
             {
+                ((MainActivity) getActivity()).getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.first_fragment , new Theme_Fragment())
+                        .commit();
                 break;
             }
             case R.id.over_map_button:

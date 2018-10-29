@@ -8,15 +8,19 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.Manifest;
 import android.net.Uri;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.util.JsonReader;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.maedin.mohagee.R;
 import com.google.android.gms.common.api.Status;
@@ -30,15 +34,23 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class SearchActivity extends FragmentActivity implements OnMapReadyCallback {
+public class SearchActivity extends FragmentActivity implements OnMapReadyCallback, View.OnClickListener {
     private GoogleMap mMap;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 2002;
     private Geocoder geocoder;
@@ -46,18 +58,45 @@ public class SearchActivity extends FragmentActivity implements OnMapReadyCallba
     private Location mLastKnownLocation;
     private EditText editText;
     private Marker currentMarker = null; // 지정 위치 마커
+    private PathThread pathThread;
+    private Polyline polyline = null;
     private Double CurrentLat;
+    private ArrayList<LatLng> mapPoints = null;
     private Double CurrentLng;
     private Location CurrentLoc;
+    private ArrayList<TrackModel> trackModels = null;
     private boolean mPermissionDenied = false;
-
+    private int totalDistance;
     private Location lastKnownLocation = null;
+    //길찾기 구현 버튼
+    private Button find_road_button;
+    private ArrayList<MarkerOptions> currentmarkers;
+    private Integer vianumber;
+    private Integer lastvianumber;
+    private int linewidth=5;
+    private ArrayList<String> colorlist;
+    private int colornum=0;
+    private int via;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.map_activity_layout);
+
+        colorlist = new ArrayList<>();
+        colorlist.add("#800000");
+        colorlist.add("#FF4500");
+        colorlist.add("#FFFF00");
+        colorlist.add("#32CD32");
+        colorlist.add("#4682B4");
+        currentmarkers = new ArrayList<>();
+        //길찾기 구현 버튼
+        this.find_road_button = (Button)findViewById(R.id.find_road);
+        find_road_button.setOnClickListener(this);
+
+
         //editText = (EditText) findViewById(R.id.editText);
         //button=(Button)findViewById(R.id.button);
 
@@ -72,6 +111,7 @@ public class SearchActivity extends FragmentActivity implements OnMapReadyCallba
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(Place place) {
+                Log.d("younho", place.getLatLng().toString());
                 Location location = new Location("");
                 location.setLatitude(place.getLatLng().latitude);
                 location.setLongitude(place.getLatLng().longitude);
@@ -90,7 +130,41 @@ public class SearchActivity extends FragmentActivity implements OnMapReadyCallba
             }
         });
 
+        pathThread = new PathThread(pathHandler);
+        pathThread.setDaemon(true);
+        pathThread.start();
+        trackModels = new ArrayList<>();
+        mapPoints = new ArrayList<>();
 
+
+    }
+
+    public void drawpath() {
+        if (polyline != null && vianumber >= lastvianumber) {
+            Log.d("check_size", "into delete");
+            polyline.remove();
+            linewidth = 5;
+            colornum = 0;
+        }
+
+        Log.d("younho", vianumber.toString());
+
+        linewidth = linewidth +1;
+        polyline = mMap.addPolyline(new PolylineOptions()
+                .addAll(mapPoints)
+                .width(linewidth)
+                .color(Color.parseColor(colorlist.get(colornum))));
+
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+        for (LatLng elem : mapPoints) {
+            builder.include(elem);
+        }
+
+
+        mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 300));
+        lastvianumber = vianumber;
+        Log.d("younho", lastvianumber.toString());
+        colornum = colornum +1;
     }
 
 
@@ -173,6 +247,7 @@ public class SearchActivity extends FragmentActivity implements OnMapReadyCallba
         geocoder = new Geocoder(this);
         mMap.getUiSettings().setCompassEnabled(true); // 나침반 설정
 
+
         if (PackageManager.PERMISSION_GRANTED != ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION)) {
             ActivityCompat.requestPermissions(this,
@@ -194,54 +269,14 @@ public class SearchActivity extends FragmentActivity implements OnMapReadyCallba
                 mOptions.position(new LatLng(latitude, longitude));
                 // 마커(핀) 추가
                 googleMap.addMarker(mOptions);
+                currentmarkers.add(mOptions);
+
             }
         });
-        ////////////////////
-
-        // 버튼 이벤트
-//        button.setOnClickListener(new Button.OnClickListener(){
-//            @Override
-//            public void onClick(View v){
-//                String str=editText.getText().toString();
-//                List<Address> addressList = null;
-//                try {
-//                    // editText에 입력한 텍스트(주소, 지역, 장소 등)을 지오 코딩을 이용해 변환
-//                    addressList = geocoder.getFromLocationName(
-//                            str, // 주소
-//                            10); // 최대 검색 결과 개수
-//                }
-//                catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//
-//                System.out.println(addressList.get(0).toString());
-//                // 콤마를 기준으로 split
-//                String []splitStr = addressList.get(0).toString().split(",");
-//                String address = splitStr[0].substring(splitStr[0].indexOf("\"") + 1,splitStr[0].length() - 2); // 주소
-//                System.out.println(address);
-//
-//                String latitude = splitStr[10].substring(splitStr[10].indexOf("=") + 1); // 위도
-//                String longitude = splitStr[12].substring(splitStr[12].indexOf("=") + 1); // 경도
-//                System.out.println(latitude);
-//                System.out.println(longitude);
-//
-//                // 좌표(위도, 경도) 생성
-//                LatLng point = new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude));
-//                // 마커 생성
-//                MarkerOptions mOptions2 = new MarkerOptions();
-//                mOptions2.title("search result");
-//                mOptions2.snippet(address);
-//                mOptions2.position(point);
-//                // 마커 추가
-//                mMap.addMarker(mOptions2);
-//                // 해당 좌표로 화면 줌
-//                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(point,15));
-//            }
-//        });
-        ////////////////////
 
         // Add a marker in Sydney and move the camera
         setCurrentLoc(CurrentLoc);
+
 
 
         if (PackageManager.PERMISSION_GRANTED == ContextCompat.checkSelfPermission(this,
@@ -263,16 +298,126 @@ public class SearchActivity extends FragmentActivity implements OnMapReadyCallba
 
             mMap.getUiSettings().setRotateGesturesEnabled(false);
 
-        }
-
-        else {
+        } else {
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
         }
 
 
     }
+
+    @Override
+    public void onClick(View v)
+    {
+        switch (v.getId())
+        {
+            //길찾기 구현
+            case R.id.find_road:
+                Location location = mMap.getMyLocation();
+                setCurrentLoc(location);
+                Log.d("log", "길찾기 구현 버튼");
+                String x= CurrentLng.toString();
+                String y = CurrentLat.toString();
+                vianumber = currentmarkers.size();
+                via = vianumber;
+                    for(int i = 0 ; i<currentmarkers.size(); ) {
+                        MarkerOptions marker = currentmarkers.get(i);
+                        currentmarkers.remove(i);
+                        pathThread.initiate(x, y, String.valueOf(marker.getPosition().longitude), String.valueOf(marker.getPosition().latitude), "목적지"); //나중에 endName 바꿔야 함.
+                        x = String.valueOf(marker.getPosition().longitude);
+                        y = String.valueOf(marker.getPosition().latitude);
+                    }
+                pathThread.getFgHandler().sendEmptyMessage(0);
+        }
+    }
+
+
+
+    private Handler pathHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (!trackModels.isEmpty())
+                trackModels.clear();
+            if (!mapPoints.isEmpty()) {
+                mapPoints.clear();
+            }
+
+            /*JSONObject jsonObject = null;
+            JSONArray jsonArray = null;
+            try {
+                jsonObject = new JSONObject(msg.obj.toString());
+                jsonArray = jsonObject.getJSONArray("jsonArray");
+            } catch(JSONException e)
+            {
+                e.printStackTrace();
+            }
+            for(int k = 0 ; k<jsonArray.length() ; k++) {*/
+
+            try {
+                Log.d("JSON_Point", msg.obj.toString());           //jsonArray.get(k).toString();
+                JSONObject jAr = new JSONObject(msg.obj.toString());
+                JSONArray features = jAr.getJSONArray("features");
+                TrackModel trackModel = new TrackModel();
+
+                for (int i = 0; i < features.length(); i++) {
+                    JSONObject test2 = features.getJSONObject(i);
+                    Log.d("JSON_Point", test2.getJSONObject("properties").toString());
+                    if (i == 0) {
+                        JSONObject property = test2.getJSONObject("properties");
+                        totalDistance += property.getInt("totalDistance");
+                    }
+
+                    JSONObject geometry = test2.getJSONObject("geometry");
+                    JSONArray coordinates = geometry.getJSONArray("coordinates");
+
+                    String geoType = geometry.getString("type");
+                    if (geoType.equals("Point")) {
+                        double lonJson = coordinates.getDouble(0);
+                        double latJson = coordinates.getDouble(1);
+
+                        lonJson = Math.round(lonJson * 10000000d) / 10000000d;
+                        latJson = Math.round(latJson * 10000000d) / 10000000d;
+
+                        Log.d("JSON_Point", latJson + "," + lonJson + "\n");
+                        LatLng point = new LatLng(latJson, lonJson);
+                        mapPoints.add(point);
+                        trackModel.addLatLng(point);
+                    }
+
+                    if (geoType.equals("LineString")) {
+                        for (int j = 0; j < coordinates.length(); j++) {
+                            JSONArray JLinePoint = coordinates.getJSONArray(j);
+                            double lonJson = JLinePoint.getDouble(0);
+                            double latJson = JLinePoint.getDouble(1);
+
+                            lonJson = Math.round(lonJson * 10000000d) / 10000000d;
+                            latJson = Math.round(latJson * 10000000d) / 10000000d;
+
+                            Log.d("JSON_LineString", latJson + "," + lonJson + "\n");
+                            LatLng point = new LatLng(latJson, lonJson);
+                            mapPoints.add(point);
+                            trackModel.addLatLng(point);
+                        }
+                    }
+
+                    JSONObject properties = test2.getJSONObject("properties");
+                    trackModel.setDescription(properties.getString("description"));
+                    trackModel.setDistance(properties.optDouble("distance", 0));
+                    trackModel.setTime(properties.optDouble("time", 0));
+                    trackModel.setTurnType(properties.optInt("turnType", 0));
+                    trackModels.add(trackModel);
+                    Log.d("Description", properties.getString("description"));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                Log.d("THREAD_ERR", "handler_error2");
+            }
+            //}
+            drawpath();
+            vianumber = vianumber - 1;
+            Log.d("Description", "find path end");
+            }
+    };
+
 }
-
-
-

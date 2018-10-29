@@ -342,15 +342,25 @@
 
     </RelativeLayout>
 
-    <TextView
+    <FrameLayout
+        android:id="@+id/first_fragment"
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:gravity="center"
-        android:text="검색창"
-        android:textSize="10pt" />
+        android:textSize="10pt">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="무엇을 할지 선택해 주세요"
+            android:gravity="center"
+            android:textSize="20pt"
+            android:textColor="#D3D3D3"
+            />
+    </FrameLayout>
 
 
     <Button
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="결과보기"
