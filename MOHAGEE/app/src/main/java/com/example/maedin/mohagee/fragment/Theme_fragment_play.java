@@ -1,20 +1,19 @@
 package com.example.maedin.mohagee.fragment;
 
-
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
 import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.support.v4.app.FragmentManager;
 import android.widget.Button;
 
 import com.example.maedin.mohagee.R;
 
-public class Theme_fragment_resturant extends Fragment implements View.OnClickListener {
+public class Theme_fragment_play extends Fragment implements View.OnClickListener{
     View view;
-    Button korea_resturant, china_resturant, japan_resturant, snack_resturant, west_resturant;
+
+    Button billiard, bowling, pc_room, room_escape, singing_room;
 
     @Nullable
     @Override
@@ -23,24 +22,28 @@ public class Theme_fragment_resturant extends Fragment implements View.OnClickLi
         String type = getArguments().getString("Type");
         switch (type)
         {
-            case "resturant":
-                view = inflater.inflate(R.layout.theme_fragment_layout1, container, false);
-                korea_resturant = (Button)view.findViewById(R.id.koreafood_button);
-                korea_resturant.setOnClickListener(this);
+            case "play":
+                view= inflater.inflate(R.layout.theme_fragment_layout_play, container, false);
 
-                china_resturant = (Button)view.findViewById(R.id.chinafood_button);
-                china_resturant.setOnClickListener(this);
+                billiard = (Button)view.findViewById(R.id.billiard_button);
+                billiard.setOnClickListener(this);
 
-                japan_resturant = (Button)view.findViewById(R.id.japanfood_button);
-                japan_resturant.setOnClickListener(this);
+                bowling = (Button)view.findViewById(R.id.bowling_button);
+                bowling.setOnClickListener(this);
 
-                snack_resturant = (Button)view.findViewById(R.id.snack_button);
-                snack_resturant.setOnClickListener(this);
+                pc_room = (Button)view.findViewById(R.id.pc_room_button);
+                pc_room.setOnClickListener(this);
 
-                west_resturant = (Button)view.findViewById(R.id.westfood_button);
-                west_resturant.setOnClickListener(this);
+                room_escape = (Button)view.findViewById(R.id.escape_room_button);
+                room_escape.setOnClickListener(this);
+
+                singing_room = (Button)view.findViewById(R.id.singing_room);
+                singing_room.setOnClickListener(this);
+
                 break;
+
         }
+
         return view;
     }
 
@@ -49,10 +52,9 @@ public class Theme_fragment_resturant extends Fragment implements View.OnClickLi
     {
         Button b;
         b = v.findViewById(v.getId());
-
         switch (v.getId())
         {
-            case R.id.koreafood_button:
+            case R.id.billiard_button:
                 if(!b.isSelected()) {
                     b.setSelected(true);
                 }
@@ -63,7 +65,7 @@ public class Theme_fragment_resturant extends Fragment implements View.OnClickLi
 
                 break;
 
-            case R.id.chinafood_button:
+            case R.id.bowling_button:
                 if(!b.isSelected()) {
                     b.setSelected(true);
                 }
@@ -74,7 +76,17 @@ public class Theme_fragment_resturant extends Fragment implements View.OnClickLi
 
                 break;
 
-            case R.id.westfood_button:
+            case R.id.escape_room_button:
+                if(!b.isSelected()) {
+                    b.setSelected(true);
+                }
+                else
+                {
+                    b.setSelected(false);
+                }
+                break;
+
+            case R.id.pc_room_button:
                 if(!b.isSelected()) {
                     b.setSelected(true);
                 }
@@ -85,7 +97,7 @@ public class Theme_fragment_resturant extends Fragment implements View.OnClickLi
 
                 break;
 
-            case R.id.snack_button:
+            case R.id.singing_room:
                 if(!b.isSelected()) {
                     b.setSelected(true);
                 }
@@ -96,17 +108,7 @@ public class Theme_fragment_resturant extends Fragment implements View.OnClickLi
 
                 break;
 
-            case R.id.japanfood_button:
-                if(!b.isSelected()) {
-                    b.setSelected(true);
-                }
-                else
-                {
-                    b.setSelected(false);
-                }
 
-                break;
-                
         }
     }
 

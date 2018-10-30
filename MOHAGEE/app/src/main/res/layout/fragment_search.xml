@@ -181,8 +181,8 @@
         android:id="@+id/select_activity"
         android:layout_width="wrap_content"
 
-        android:layout_height="220dp"
-        android:layout_marginBottom="10dp">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp">
         <TextView
             android:layout_marginTop="10dp"
             android:layout_marginLeft="20dp"
@@ -223,115 +223,40 @@
             android:textColor="@drawable/text_selector"
 
             android:layout_below="@+id/activity_topic"
-            android:id="@+id/billiard"
+            android:id="@+id/play"
             android:layout_toRightOf="@+id/cafe"
-            android:layout_width="wrap_content"
+            android:layout_width="70dp"
             android:layout_height="30dp"
             android:layout_marginLeft="10dp"
             android:background="@drawable/button_round"
-            android:text="#당구장"
+            android:text="#놀이"
             />
         <Button
             android:layout_marginTop="10dp"
             android:layout_below="@+id/resturant"
-            android:id="@+id/bowling"
-            android:layout_width="wrap_content"
+            android:id="@+id/culture"
+            android:layout_width="70dp"
             android:layout_height="30dp"
             android:layout_marginLeft="20dp"
             android:background="@drawable/button_round"
             android:textColor="@drawable/text_selector"
 
-            android:text="#볼링장"
+            android:text="#문화"
             />
         <Button
             android:layout_marginTop="10dp"
             android:layout_below="@+id/resturant"
-            android:id="@+id/pc_room"
-            android:layout_width="80dp"
-            android:layout_height="30dp"
-            android:layout_toRightOf="@+id/bowling"
-            android:textColor="@drawable/text_selector"
-
-            android:layout_marginLeft="10dp"
-            android:background="@drawable/button_round"
-            android:text="#pc 방"
-            />
-        <Button
-            android:layout_marginTop="10dp"
-            android:layout_below="@+id/resturant"
-            android:id="@+id/room_escape"
-            android:layout_width="120dp"
-            android:layout_height="30dp"
-            android:textColor="@drawable/text_selector"
-
-            android:layout_toRightOf="@+id/pc_room"
-            android:layout_marginLeft="10dp"
-            android:background="@drawable/button_round"
-            android:text="#방탈출카페"
-            />
-        <Button
-            android:layout_marginTop="10dp"
-            android:layout_below="@+id/bowling"
-            android:id="@+id/exhibition"
-            android:textColor="@drawable/text_selector"
-
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:layout_marginLeft="20dp"
-            android:background="@drawable/button_round"
-            android:text="#전시회"
-            />
-        <Button
-            android:layout_marginTop="10dp"
-            android:layout_below="@+id/bowling"
-            android:id="@+id/theater"
+            android:id="@+id/etc"
             android:layout_width="70dp"
             android:layout_height="30dp"
+            android:layout_toRightOf="@+id/culture"
             android:textColor="@drawable/text_selector"
 
             android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@+id/exhibition"
             android:background="@drawable/button_round"
-            android:text="#연극"
+            android:text="#기타"
             />
-        <Button
-            android:layout_marginTop="10dp"
-            android:layout_below="@+id/bowling"
-            android:id="@+id/cinema"
-            android:layout_width="70dp"
-            android:textColor="@drawable/text_selector"
 
-            android:layout_height="30dp"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@+id/theater"
-            android:background="@drawable/button_round"
-            android:text="#영화"
-            />
-        <Button
-            android:layout_marginTop="10dp"
-            android:layout_below="@+id/exhibition"
-            android:id="@+id/park"
-            android:layout_width="70dp"
-            android:textColor="@drawable/text_selector"
-
-            android:layout_height="30dp"
-            android:layout_marginLeft="20dp"
-            android:background="@drawable/button_round"
-            android:text="#공원"
-            />
-        <Button
-            android:layout_marginTop="10dp"
-            android:layout_below="@+id/exhibition"
-            android:id="@+id/shopping"
-            android:layout_width="70dp"
-            android:textColor="@drawable/text_selector"
-
-            android:layout_height="30dp"
-            android:layout_toRightOf="@+id/park"
-            android:layout_marginLeft="10dp"
-            android:background="@drawable/button_round"
-            android:text="#쇼핑"
-            />
     </RelativeLayout>
 
     <RelativeLayout
@@ -372,19 +297,28 @@
 
             />
     </FrameLayout>
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_marginBottom="10dp"
+        android:orientation="horizontal"
+        android:id="@+id/dynamic_area"
+        >
+    </LinearLayout>
 
 
     <Button
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="결과보기"
-        android:id="@+id/btn_search_result"/>
+        android:text="#추가하기"
+        android:id="@+id/add_button"/>
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="취소"
-        android:id="@+id/btn_search_cancle"/>
+        android:text="#결과보기"
+        android:id="@+id/show_result_button"/>
 
 
 </LinearLayout>

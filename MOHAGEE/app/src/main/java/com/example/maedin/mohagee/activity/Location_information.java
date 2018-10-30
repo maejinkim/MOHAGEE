@@ -7,10 +7,16 @@ public class Location_information {
     private String bigtype = "";            //대분류
     private String smalltype = "";          //소분류
     private ArrayList<String> themes;       //테마들
+    private int order;                      //순서
+    private String withwho;
 
-    Location_information()
+    public Location_information(String big, String small, ArrayList<String> theme,int ordernum, String withwho)
     {
-        themes = new ArrayList<String>();
+        bigtype = big;
+        smalltype = small;
+        themes = theme;
+        order = ordernum;
+        this.withwho = withwho;
     }
     public String getBigtype()
     {
@@ -40,6 +46,17 @@ public class Location_information {
             themes.add(input);
         }
     }
+    public void setOrder(int newone)
+    {
+        order = newone;
+    }
+
+    public void minusorder()
+    {
+        order--;
+    }
+
+
 
     public ArrayList<String> getThemes() {
         return themes;

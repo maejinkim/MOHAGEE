@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
 
             case R.id.menu_search:
-                manager.beginTransaction().replace(R.id.content_main, new SearchFragment()).commit();
+                manager.beginTransaction().replace(R.id.content_main, new SearchFragment(), "search_fragment").commit();
                 break;
 
             case R.id.menu_custom:

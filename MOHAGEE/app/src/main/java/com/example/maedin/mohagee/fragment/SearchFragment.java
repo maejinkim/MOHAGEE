@@ -1,29 +1,25 @@
 package com.example.maedin.mohagee.fragment;
 
+import android.app.ActionBar;
 import android.app.DatePickerDialog;
-import android.app.DialogFragment;
+import android.location.Location;
+import android.support.v4.app.DialogFragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.location.Address;
-import android.location.Geocoder;
 import android.os.Bundle;
-import android.provider.CalendarContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.view.View.OnClickListener;
-import android.widget.DatePicker;
-import android.widget.EditText;
 
 import com.example.maedin.mohagee.R;
+import com.example.maedin.mohagee.activity.Location_information;
 import com.example.maedin.mohagee.activity.MainActivity;
+import com.example.maedin.mohagee.activity.PathThread;
 import com.example.maedin.mohagee.activity.SearchActivity;
 import com.example.maedin.mohagee.activity.SignInActivity;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -33,65 +29,70 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
-import android.text.format.DateFormat;
-import android.widget.TextView;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
+import java.util.Date;
 
-public class SearchFragment extends Fragment implements View.OnClickListener,
-        OnMapReadyCallback{
+public class SearchFragment extends Fragment implements View.OnClickListener, OnMapReadyCallback,
+TimePickerDialog.OnTimeSetListener{
     Calendar calendar;
     private MapView mapView = null;
     private Integer checklocation = 0;
-
+    private String time = "";
+    final Calendar cal  = Calendar.getInstance();
+    private String loc = "";
+    private String big_class= "";
+    private String small_class = "";
+    private ArrayList<String> themes;
+    private int checknum = 1;
+    private ArrayList<Location_information> locations;
+    private LinearLayout Linear_layout;
+    private String with_who = "";
+    private Button button;
 
 
     FragmentTransaction tran;
 
     public SearchFragment()
-    {}
+    {
+        locations = new ArrayList<Location_information>();
+        themes = new ArrayList<>();
+    }
+
+    public void setSmall_class(String small_class) {
+        this.small_class = small_class;
+    }
+
+    public void addtheme(String theme)
+    {
+        themes.add(theme);
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-    }
-
-    public static class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener
-    {
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState)
-        {
-            final Calendar c = Calendar.getInstance();
-            int year = c.get(Calendar.YEAR);
-            int month = c.get(Calendar.MONTH);
-            int day = c.get(Calendar.DAY_OF_MONTH);
-            return new DatePickerDialog((MainActivity)getActivity(), this,year,month,day);
-
-        }
-        public void onDateSet(DatePicker view, int year, int month, int day)
-        {
-            Toast.makeText (getActivity(), String.valueOf(year)+ "-" + String.valueOf(month) + "-" + String.valueOf(day), Toast.LENGTH_LONG).show();
-        }
-
     }
 
 
 
     View view;
-    Button after_button, right_now, solo, with_friend, with_parent, doing_date, with_children, resturant, cafe, billiard;
-    Button bowling, pc_room, room_escape, exhibition, theater, cinema, park, shopping,over_map_button;
+    Button after_button, right_now, solo, with_friend, with_parent, doing_date, with_children, resturant, cafe;
+    Button over_map_button, add_button, result_button;
+    Button play_button, culture_button, etc_button;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        Fragment origin_fragment = new Theme_fragment_origin();
 
         view = inflater.inflate(R.layout.fragment_search, container, false);
 
@@ -128,35 +129,29 @@ public class SearchFragment extends Fragment implements View.OnClickListener,
         cafe = (Button)view.findViewById(R.id.cafe);
         cafe.setOnClickListener(this);
 
-        billiard = (Button)view.findViewById(R.id.billiard);
-        billiard.setOnClickListener(this);
-
-        bowling = (Button)view.findViewById(R.id.bowling);
-        bowling.setOnClickListener(this);
-
-        pc_room = (Button)view.findViewById(R.id.pc_room);
-        pc_room.setOnClickListener(this);
-
-        room_escape = (Button)view.findViewById(R.id.room_escape);
-        room_escape.setOnClickListener(this);
-
-        exhibition = (Button)view.findViewById(R.id.exhibition);
-        exhibition.setOnClickListener(this);
-
-        theater = (Button)view.findViewById(R.id.theater);
-        theater.setOnClickListener(this);
-
-        cinema = (Button)view.findViewById(R.id.cinema);
-        cinema.setOnClickListener(this);
-
-        park = (Button)view.findViewById(R.id.park);
-        park.setOnClickListener(this);
-
-        shopping = (Button)view.findViewById(R.id.shopping);
-        shopping.setOnClickListener(this);
+        play_button = (Button)view.findViewById(R.id.play);
+        play_button.setOnClickListener(this);
 
 
+        culture_button = (Button)view.findViewById(R.id.culture);
+        culture_button.setOnClickListener(this);
 
+        etc_button = (Button)view.findViewById(R.id.etc);
+        etc_button.setOnClickListener(this);
+
+
+        add_button = (Button)view.findViewById(R.id.add_button);
+        add_button.setOnClickListener(this);
+
+        result_button = (Button)view.findViewById(R.id.show_result_button);
+        result_button.setOnClickListener(this);
+
+        Linear_layout = (LinearLayout) view.findViewById(R.id.dynamic_area);
+
+        ((MainActivity) getActivity()).getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.first_fragment , origin_fragment)
+                .commit();
 
         return view;
     }
@@ -234,12 +229,35 @@ public class SearchFragment extends Fragment implements View.OnClickListener,
         googleMap.animateCamera(CameraUpdateFactory.zoomTo(13));
     }
 
+        @Override
+        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+            String hour = String.valueOf(hourOfDay);
+            String min = String.valueOf(minute);
+            // Do something with the time chosen by the user
+            time = "";
+            time = time+hour+':'+min;
+            Log.d("check_time", time);
+
+        }
+
+
     @Override
     public void onClick(View v)
     {
+        Fragment res_fragment = new Theme_fragment_resturant();
+        Fragment cafe_fragment = new Theme_fragment_cafe();
+        Fragment cul_fragment = new Theme_fragment_culture();
+        Fragment play_fragment = new Theme_fragment_play();
+        Fragment etc_fragment = new Theme_fragment_etc();
+        Fragment origin_fragment = new Theme_fragment_origin();
+
+        Location_information newlocation;
         Button b;
         b = v.findViewById(v.getId());
-        Fragment fragment = new Theme_fragment_resturant();
+
+        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT );
+
+
         Bundle bundle = new Bundle(1);
 
         switch (v.getId())
@@ -250,12 +268,17 @@ public class SearchFragment extends Fragment implements View.OnClickListener,
                 //mTimePicker.show(getActivity().getFragmentManager(), "Select time");
                 if(!b.isSelected()) {
                     b.setSelected(true);
+                    view.findViewById(R.id.right_now).setSelected(false);
+
+                    DialogFragment newFragment = new TimePickerFragment();
+                    newFragment.show(((MainActivity)getActivity()).getSupportFragmentManager(), "time picker time");
+
                 }
                 else
                 {
                     b.setSelected(false);
+                    time = "";
                 }
-
 
                 break;
             }
@@ -264,11 +287,21 @@ public class SearchFragment extends Fragment implements View.OnClickListener,
             {
                 if(!b.isSelected()) {
                     b.setSelected(true);
+                    view.findViewById(R.id.after).setSelected(false);
+                    long now = System.currentTimeMillis();
+                    Date date = new Date(now);
+                    SimpleDateFormat sdfnow = new SimpleDateFormat("HH:mm");
+                    String formatDate = sdfnow.format(date);
+
+                    time = formatDate;
                 }
                 else
                 {
                     b.setSelected(false);
+                    time = "";
                 }
+
+                Log.d("check_time", time);
 
                 break;
             }
@@ -276,9 +309,15 @@ public class SearchFragment extends Fragment implements View.OnClickListener,
             {
                 if(!b.isSelected()) {
                     b.setSelected(true);
+                    with_who = "solo";
+                    with_friend.setSelected(false);
+                    with_parent.setSelected(false);
+                    with_children.setSelected(false);
+                    doing_date.setSelected(false);
                 }
                 else
                 {
+                    with_who = "";
                     b.setSelected(false);
                 }
 
@@ -288,9 +327,15 @@ public class SearchFragment extends Fragment implements View.OnClickListener,
             {
                 if(!b.isSelected()) {
                     b.setSelected(true);
+                    with_who = "with_friend";
+                    solo.setSelected(false);
+                    with_parent.setSelected(false);
+                    with_children.setSelected(false);
+                    doing_date.setSelected(false);
                 }
                 else
                 {
+                    with_who ="";
                     b.setSelected(false);
                 }
 
@@ -300,9 +345,15 @@ public class SearchFragment extends Fragment implements View.OnClickListener,
             {
                 if(!b.isSelected()) {
                     b.setSelected(true);
+                    with_who = "with parent";
+                    with_friend.setSelected(false);
+                    solo.setSelected(false);
+                    with_children.setSelected(false);
+                    doing_date.setSelected(false);
                 }
                 else
                 {
+                    with_who = "";
                     b.setSelected(false);
                 }
 
@@ -312,9 +363,15 @@ public class SearchFragment extends Fragment implements View.OnClickListener,
             {
                 if(!b.isSelected()) {
                     b.setSelected(true);
+                    with_who = "doing date";
+                    with_friend.setSelected(false);
+                    with_parent.setSelected(false);
+                    with_children.setSelected(false);
+                    solo.setSelected(false);
                 }
                 else
                 {
+                    with_who = "";
                     b.setSelected(false);
                 }
 
@@ -324,6 +381,10 @@ public class SearchFragment extends Fragment implements View.OnClickListener,
             {
                 if(!b.isSelected()) {
                     b.setSelected(true);
+                    with_friend.setSelected(false);
+                    with_parent.setSelected(false);
+                    solo.setSelected(false);
+                    doing_date.setSelected(false);
                 }
                 else
                 {
@@ -336,146 +397,154 @@ public class SearchFragment extends Fragment implements View.OnClickListener,
             {
                 if(!b.isSelected()) {
                     b.setSelected(true);
+                    big_class = "resturant";
+                    cafe.setSelected(false);
+                    play_button.setSelected(false);
+                    culture_button.setSelected(false);
+                    etc_button.setSelected(false);
+
+                    bundle.putString("Type", "resturant");
+                    res_fragment.setArguments(bundle);
+                    ((MainActivity) getActivity()).getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.first_fragment , res_fragment)
+                            .commit();
                 }
                 else
                 {
                     b.setSelected(false);
+                    big_class = "";
+                    ((MainActivity) getActivity()).getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.first_fragment , origin_fragment)
+                            .commit();
                 }
 
-                bundle.putString("Type", "resturant");
-                fragment.setArguments(bundle);
-                ((MainActivity) getActivity()).getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.first_fragment , fragment)
-                        .commit();
                 break;
             }
             case R.id.cafe:
             {
                 if(!b.isSelected()) {
                     b.setSelected(true);
+                    big_class = "cafe";
+                    resturant.setSelected(false);
+                    play_button.setSelected(false);
+                    culture_button.setSelected(false);
+                    etc_button.setSelected(false);
+
+
+                    bundle.putString("Type", "cafe");
+                    cafe_fragment.setArguments(bundle);
+                    ((MainActivity) getActivity()).getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.first_fragment , cafe_fragment)
+                            .commit();
                 }
                 else
                 {
                     b.setSelected(false);
+                    big_class = "";
+                    ((MainActivity) getActivity()).getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.first_fragment , origin_fragment)
+                            .commit();
                 }
 
-                bundle.putString("Type", "cafe");
-                fragment.setArguments(bundle);
-                ((MainActivity) getActivity()).getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.first_fragment , fragment)
-                        .commit();
                 break;
             }
-            case R.id.billiard:
+            case R.id.play:
+            {
+
+                if(!b.isSelected()) {
+                    b.setSelected(true);
+                    big_class = "play";
+                    cafe.setSelected(false);
+                    resturant.setSelected(false);
+                    culture_button.setSelected(false);
+                    etc_button.setSelected(false);
+
+                    bundle.putString("Type", "play");
+                    play_fragment.setArguments(bundle);
+                    ((MainActivity) getActivity()).getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.first_fragment , play_fragment)
+                            .commit();
+                }
+                else
+                {
+                    b.setSelected(false);
+                    big_class = "";
+                    ((MainActivity) getActivity()).getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.first_fragment , origin_fragment)
+                            .commit();
+                }
+
+
+                break;
+            }
+            case R.id.culture: {
+
+                if(!b.isSelected()) {
+                    b.setSelected(true);
+                    big_class = "culture";
+                    cafe.setSelected(false);
+                    play_button.setSelected(false);
+                    resturant.setSelected(false);
+                    etc_button.setSelected(false);
+                    bundle.putString("Type", "culture");
+                    cul_fragment.setArguments(bundle);
+                    ((MainActivity) getActivity()).getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.first_fragment , cul_fragment)
+                            .commit();
+                }
+                else
+                {
+                    b.setSelected(false);
+                    big_class = "";
+                    ((MainActivity) getActivity()).getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.first_fragment , origin_fragment)
+                            .commit();
+                }
+
+
+                break;
+            }
+            case R.id.etc:
             {
                 if(!b.isSelected()) {
                     b.setSelected(true);
+                    big_class = "etc";
+                    cafe.setSelected(false);
+                    play_button.setSelected(false);
+                    culture_button.setSelected(false);
+                    resturant.setSelected(false);
+
+                    bundle.putString("Type", "etc");
+                    etc_fragment.setArguments(bundle);
+                    ((MainActivity) getActivity()).getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.first_fragment , etc_fragment)
+                            .commit();
                 }
+
                 else
                 {
                     b.setSelected(false);
+                    big_class = "";
+                    ((MainActivity) getActivity()).getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.first_fragment , origin_fragment)
+                            .commit();
                 }
+
 
                 break;
             }
-            case R.id.bowling:
-            {
-                if(!b.isSelected()) {
-                    b.setSelected(true);
-                }
-                else
-                {
-                    b.setSelected(false);
-                }
 
-                break;
-            }
-            case R.id.pc_room:
-            {
-                if(!b.isSelected()) {
-                    b.setSelected(true);
-                }
-                else
-                {
-                    b.setSelected(false);
-                }
 
-                break;
-            }
-            case R.id.room_escape:
-            {
-                if(!b.isSelected()) {
-                    b.setSelected(true);
-                }
-                else
-                {
-                    b.setSelected(false);
-                }
-
-                break;
-            }
-            case R.id.exhibition:
-            {
-                if(!b.isSelected()) {
-                    b.setSelected(true);
-                }
-                else
-                {
-                    b.setSelected(false);
-                }
-
-                break;
-            }
-            case R.id.theater:
-            {
-                if(!b.isSelected()) {
-                    b.setSelected(true);
-                }
-                else
-                {
-                    b.setSelected(false);
-                }
-
-                break;
-            }
-            case R.id.cinema:
-            {
-                if(!b.isSelected()) {
-                    b.setSelected(true);
-                }
-                else
-                {
-                    b.setSelected(false);
-                }
-
-                break;
-            }
-            case R.id.park:
-            {
-                if(!b.isSelected()) {
-                    b.setSelected(true);
-                }
-                else
-                {
-                    b.setSelected(false);
-                }
-
-                break;
-            }
-            case R.id.shopping:
-            {
-                if(!b.isSelected()) {
-                    b.setSelected(true);
-                }
-                else
-                {
-                    b.setSelected(false);
-                }
-
-                break;
-            }
             case R.id.over_map_button:
             {
                 if(!b.isSelected()) {
@@ -491,7 +560,65 @@ public class SearchFragment extends Fragment implements View.OnClickListener,
                 Log.d("textabc", "onClick: after");
                 break;
             }
+            case R.id.add_button:
+            {
+                if(big_class =="")
+                {
+                    Toast.makeText(((MainActivity)getActivity()).getApplicationContext(), "모하고 놀지 선택해 주세요!",Toast.LENGTH_LONG).show();
+                    break;
+                }
+               /* else if(small_class == "")
+                {
+                    Toast.makeText(((MainActivity)getActivity()).getApplicationContext(), "정확히 모하고 놀지 선택해 주세요!",Toast.LENGTH_LONG).show();
+                    break;
+                }*/
+                button = new Button(getActivity());
+                button.setId(checknum);
+                button.setText(small_class);
+                button.setLayoutParams(params);
+
+                newlocation = new Location_information(big_class, small_class, themes, checknum, with_who);
+                locations.add(newlocation);
+                Linear_layout.addView(button);
+
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        int index = view.getId();
+                        for(int i=index ; i<locations.size() ; i++)
+                        {
+                            locations.get(i).minusorder();
+                        }
+                        locations.remove(index-1);
+                        Linear_layout.removeView(view);
+                        checknum--;
+                    }
+                });
+
+                checknum ++;
+                themes.clear();
+                big_class = "";
+                small_class = "";
+
+                cafe.setSelected(false);
+                play_button.setSelected(false);
+                resturant.setSelected(false);
+                etc_button.setSelected(false);
+                culture_button.setSelected(false);
+
+
+
+                ((MainActivity) getActivity()).getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.first_fragment , origin_fragment)
+                        .commit();
+
+
+                break;
+            }
 
         }
+
+
     }
 }
