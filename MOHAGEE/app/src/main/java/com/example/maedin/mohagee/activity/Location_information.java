@@ -10,13 +10,11 @@ public class Location_information {
     private int order;                      //순서
     private String withwho;
 
-    public Location_information(String big, String small, ArrayList<String> theme,int ordernum, String withwho)
+    public Location_information(String big, String small, ArrayList<String> theme)
     {
         bigtype = big;
         smalltype = small;
         themes = theme;
-        order = ordernum;
-        this.withwho = withwho;
     }
     public String getBigtype()
     {

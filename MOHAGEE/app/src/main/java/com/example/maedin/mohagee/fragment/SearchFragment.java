@@ -3,6 +3,8 @@ package com.example.maedin.mohagee.fragment;
 import android.app.ActionBar;
 import android.app.DatePickerDialog;
 import android.location.Location;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.DialogFragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
@@ -23,6 +25,7 @@ import com.example.maedin.mohagee.activity.MainActivity;
 import com.example.maedin.mohagee.activity.PathThread;
 import com.example.maedin.mohagee.activity.SearchActivity;
 import com.example.maedin.mohagee.activity.Select_Location_Activity;
+import com.example.maedin.mohagee.activity.ServerThread;
 import com.example.maedin.mohagee.activity.SignInActivity;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -61,6 +64,8 @@ TimePickerDialog.OnTimeSetListener{
     private LinearLayout Linear_layout;
     private String with_who = "";
     private ImageButton button;
+    private ServerThread serverThread;
+    private ArrayList<Location_information> loc_list;
 
 
     FragmentTransaction tran;
@@ -69,6 +74,7 @@ TimePickerDialog.OnTimeSetListener{
     {
         locations = new ArrayList<>();
         themes = new ArrayList<>();
+        loc_list = new ArrayList<>();
     }
 
     public void setSmall_class(String small_class) {
@@ -89,6 +95,10 @@ TimePickerDialog.OnTimeSetListener{
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        serverThread = new ServerThread(serverhandler);
+        serverThread.setDaemon(true);
+        serverThread.start();
     }
 
 
@@ -393,6 +403,7 @@ TimePickerDialog.OnTimeSetListener{
             {
                 if(!b.isSelected()) {
                     b.setSelected(true);
+                    with_who = "with_children";
                     with_friend.setSelected(false);
                     with_parent.setSelected(false);
                     solo.setSelected(false);
@@ -400,6 +411,7 @@ TimePickerDialog.OnTimeSetListener{
                 }
                 else
                 {
+                    with_who = "";
                     b.setSelected(false);
                 }
 
@@ -649,7 +661,8 @@ TimePickerDialog.OnTimeSetListener{
                 button.setScaleType(ImageButton.ScaleType.CENTER_INSIDE);
                 button.setLayoutParams(params1);
 
-
+                Location_information temp = new Location_information(big_class,small_class,themes);
+                loc_list.add(temp);
                 locations.add(button);
                 Linear_layout.addView(button);
 
@@ -664,6 +677,7 @@ TimePickerDialog.OnTimeSetListener{
                             locations.get(i).setId(temp-1);
                         }
                         locations.remove(index-1);
+                        loc_list.remove(index-1);
 
                         Linear_layout.removeView(view);
                         checknum--;
@@ -689,6 +703,13 @@ TimePickerDialog.OnTimeSetListener{
 
                 break;
             }
+            case R.id.show_result_button:
+            {
+                serverThread.initiate(time,Lat, Lng, with_who, loc_list);
+                serverThread.getFgHandler().sendEmptyMessage(0);
+                break;
+            }
+
         }
     }
     @Override
@@ -704,4 +725,21 @@ TimePickerDialog.OnTimeSetListener{
 
         }
     }
+
+    private Handler serverhandler = new Handler()
+    {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+
+            try{
+                Log.d("JSON_Point", msg.obj.toString());
+            }catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+
+    };
+
 }
