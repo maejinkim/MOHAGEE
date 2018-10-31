@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.maedin.mohagee.R;
+import com.example.maedin.mohagee.activity.MainActivity;
 import com.google.android.gms.maps.MapView;
 
 public class Theme_fragment_culture extends Fragment implements View.OnClickListener{
@@ -52,10 +53,17 @@ public class Theme_fragment_culture extends Fragment implements View.OnClickList
 
                 if(!b.isSelected()) {
                     b.setSelected(true);
+                    theater.setSelected(false);
+                    cinema.setSelected(false);
+
+                    ((SearchFragment)((MainActivity) getActivity()).getSupportFragmentManager()
+                            .findFragmentByTag("search_fragment")).setSmall_class(b.getText().toString());
                 }
                 else
                 {
                     b.setSelected(false);
+                    ((SearchFragment)((MainActivity) getActivity()).getSupportFragmentManager()
+                            .findFragmentByTag("search_fragment")).deletetheme(b.getText().toString());
                 }
 
                 break;
@@ -64,10 +72,17 @@ public class Theme_fragment_culture extends Fragment implements View.OnClickList
 
                 if(!b.isSelected()) {
                     b.setSelected(true);
+                    exhibition.setSelected(false);
+                    cinema.setSelected(false);
+
+                    ((SearchFragment)((MainActivity) getActivity()).getSupportFragmentManager()
+                            .findFragmentByTag("search_fragment")).setSmall_class(b.getText().toString());
                 }
                 else
                 {
                     b.setSelected(false);
+                    ((SearchFragment)((MainActivity) getActivity()).getSupportFragmentManager()
+                            .findFragmentByTag("search_fragment")).deletetheme(b.getText().toString());
                 }
 
                 break;
@@ -76,10 +91,17 @@ public class Theme_fragment_culture extends Fragment implements View.OnClickList
 
                 if(!b.isSelected()) {
                     b.setSelected(true);
+                    theater.setSelected(false);
+                    exhibition.setSelected(false);
+
+                    ((SearchFragment)((MainActivity) getActivity()).getSupportFragmentManager()
+                            .findFragmentByTag("search_fragment")).setSmall_class(b.getText().toString());
                 }
                 else
                 {
                     b.setSelected(false);
+                    ((SearchFragment)((MainActivity) getActivity()).getSupportFragmentManager()
+                            .findFragmentByTag("search_fragment")).deletetheme(b.getText().toString());
                 }
 
                 break;

@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +22,7 @@ import com.example.maedin.mohagee.activity.Location_information;
 import com.example.maedin.mohagee.activity.MainActivity;
 import com.example.maedin.mohagee.activity.PathThread;
 import com.example.maedin.mohagee.activity.SearchActivity;
+import com.example.maedin.mohagee.activity.Select_Location_Activity;
 import com.example.maedin.mohagee.activity.SignInActivity;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -32,6 +34,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -48,22 +51,23 @@ TimePickerDialog.OnTimeSetListener{
     private Integer checklocation = 0;
     private String time = "";
     final Calendar cal  = Calendar.getInstance();
-    private String loc = "";
+    private double Lat = 0;
+    private double Lng = 0;
     private String big_class= "";
     private String small_class = "";
     private ArrayList<String> themes;
     private int checknum = 1;
-    private ArrayList<Location_information> locations;
+    private ArrayList<ImageButton> locations;
     private LinearLayout Linear_layout;
     private String with_who = "";
-    private Button button;
+    private ImageButton button;
 
 
     FragmentTransaction tran;
 
     public SearchFragment()
     {
-        locations = new ArrayList<Location_information>();
+        locations = new ArrayList<>();
         themes = new ArrayList<>();
     }
 
@@ -75,6 +79,12 @@ TimePickerDialog.OnTimeSetListener{
     {
         themes.add(theme);
     }
+
+    public void deletetheme(String theme)
+    {
+        themes.remove(theme);
+    }
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -251,12 +261,13 @@ TimePickerDialog.OnTimeSetListener{
         Fragment etc_fragment = new Theme_fragment_etc();
         Fragment origin_fragment = new Theme_fragment_origin();
 
-        Location_information newlocation;
         Button b;
         b = v.findViewById(v.getId());
 
-        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT );
-
+        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(300,300);
+        params1.leftMargin = 15;
+        params1.rightMargin = 15;
 
         Bundle bundle = new Bundle(1);
 
@@ -310,6 +321,7 @@ TimePickerDialog.OnTimeSetListener{
                 if(!b.isSelected()) {
                     b.setSelected(true);
                     with_who = "solo";
+
                     with_friend.setSelected(false);
                     with_parent.setSelected(false);
                     with_children.setSelected(false);
@@ -397,6 +409,7 @@ TimePickerDialog.OnTimeSetListener{
             {
                 if(!b.isSelected()) {
                     b.setSelected(true);
+                    themes.clear();
                     big_class = "resturant";
                     cafe.setSelected(false);
                     play_button.setSelected(false);
@@ -412,6 +425,7 @@ TimePickerDialog.OnTimeSetListener{
                 }
                 else
                 {
+                    themes.clear();
                     b.setSelected(false);
                     big_class = "";
                     ((MainActivity) getActivity()).getSupportFragmentManager()
@@ -426,6 +440,7 @@ TimePickerDialog.OnTimeSetListener{
             {
                 if(!b.isSelected()) {
                     b.setSelected(true);
+                    themes.clear();
                     big_class = "cafe";
                     resturant.setSelected(false);
                     play_button.setSelected(false);
@@ -443,6 +458,7 @@ TimePickerDialog.OnTimeSetListener{
                 else
                 {
                     b.setSelected(false);
+                    themes.clear();
                     big_class = "";
                     ((MainActivity) getActivity()).getSupportFragmentManager()
                             .beginTransaction()
@@ -462,6 +478,7 @@ TimePickerDialog.OnTimeSetListener{
                     resturant.setSelected(false);
                     culture_button.setSelected(false);
                     etc_button.setSelected(false);
+                    themes.clear();
 
                     bundle.putString("Type", "play");
                     play_fragment.setArguments(bundle);
@@ -473,6 +490,8 @@ TimePickerDialog.OnTimeSetListener{
                 else
                 {
                     b.setSelected(false);
+                    themes.clear();
+
                     big_class = "";
                     ((MainActivity) getActivity()).getSupportFragmentManager()
                             .beginTransaction()
@@ -488,6 +507,7 @@ TimePickerDialog.OnTimeSetListener{
                 if(!b.isSelected()) {
                     b.setSelected(true);
                     big_class = "culture";
+                    themes.clear();
                     cafe.setSelected(false);
                     play_button.setSelected(false);
                     resturant.setSelected(false);
@@ -503,6 +523,8 @@ TimePickerDialog.OnTimeSetListener{
                 {
                     b.setSelected(false);
                     big_class = "";
+                    themes.clear();
+
                     ((MainActivity) getActivity()).getSupportFragmentManager()
                             .beginTransaction()
                             .replace(R.id.first_fragment , origin_fragment)
@@ -517,6 +539,8 @@ TimePickerDialog.OnTimeSetListener{
                 if(!b.isSelected()) {
                     b.setSelected(true);
                     big_class = "etc";
+                    themes.clear();
+
                     cafe.setSelected(false);
                     play_button.setSelected(false);
                     culture_button.setSelected(false);
@@ -534,6 +558,7 @@ TimePickerDialog.OnTimeSetListener{
                 {
                     b.setSelected(false);
                     big_class = "";
+                    themes.clear();
                     ((MainActivity) getActivity()).getSupportFragmentManager()
                             .beginTransaction()
                             .replace(R.id.first_fragment , origin_fragment)
@@ -556,8 +581,13 @@ TimePickerDialog.OnTimeSetListener{
                 }
 
                 Log.d("textabc", "onClick: before");
-                startActivity(new Intent(getActivity(), SearchActivity.class));
-                Log.d("textabc", "onClick: after");
+                startActivityForResult(new Intent(getActivity(), Select_Location_Activity.class), 0);
+
+                //Bundle bun = this.getArguments();
+               // Lat = bun.getDouble("Lat");
+               // Lng = bun.getDouble("Lng");
+
+                //Log.d("textabc", "onClick: after");
                 break;
             }
             case R.id.add_button:
@@ -567,19 +597,62 @@ TimePickerDialog.OnTimeSetListener{
                     Toast.makeText(((MainActivity)getActivity()).getApplicationContext(), "모하고 놀지 선택해 주세요!",Toast.LENGTH_LONG).show();
                     break;
                 }
-               /* else if(small_class == "")
+                else if(small_class == "" && big_class != "cafe")
                 {
                     Toast.makeText(((MainActivity)getActivity()).getApplicationContext(), "정확히 모하고 놀지 선택해 주세요!",Toast.LENGTH_LONG).show();
                     break;
-                }*/
-                button = new Button(getActivity());
-                button.setId(checknum);
-                button.setText(small_class);
-                button.setLayoutParams(params);
+                }
+                else if(Lat == 0 && Lng == 0)
+                {
+                    Toast.makeText(((MainActivity)getActivity()).getApplicationContext(), "어디서 모하고 놀지 선택해 주세요!",Toast.LENGTH_LONG).show();
+                    break;
+                }
+                else if(time =="")
+                {
+                    Toast.makeText(((MainActivity)getActivity()).getApplicationContext(), "언제 모하고 놀지 선택해 주세요!",Toast.LENGTH_LONG).show();
+                    break;
+                }
+                else if(with_who =="")
+                {
+                    Toast.makeText(((MainActivity)getActivity()).getApplicationContext(), "누구랑 모하고 놀지 선택해 주세요!",Toast.LENGTH_LONG).show();
+                    break;
 
-                newlocation = new Location_information(big_class, small_class, themes, checknum, with_who);
-                locations.add(newlocation);
+                }
+
+                button = new ImageButton(getActivity());
+                button.setId(checknum);
+
+                button.setBackground(ContextCompat.getDrawable(((MainActivity)getActivity()).getApplicationContext(), R.drawable.circle_button));
+                if(small_class == "") {
+                    button.setImageResource(R.drawable.cafe_button_new);
+                }
+                else if(small_class.equals("#중식")){
+                    button.setImageResource(R.drawable.china_button);
+                }
+                else if(small_class.equals("#한식"))
+                {
+                    button.setImageResource(R.drawable.korea_button);
+                }
+
+                else if(small_class.equals("#분식"))
+                {
+                    button.setImageResource(R.drawable.snack_button);
+                }
+                else if(small_class.equals("#양식"))
+                {
+                    button.setImageResource(R.drawable.west_button);
+                }
+                else if (small_class.equals("#일식"))
+                {
+                    button.setImageResource(R.drawable.japan_button);
+                }
+                button.setScaleType(ImageButton.ScaleType.CENTER_INSIDE);
+                button.setLayoutParams(params1);
+
+
+                locations.add(button);
                 Linear_layout.addView(button);
+
 
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -587,9 +660,11 @@ TimePickerDialog.OnTimeSetListener{
                         int index = view.getId();
                         for(int i=index ; i<locations.size() ; i++)
                         {
-                            locations.get(i).minusorder();
+                            int temp = locations.get(i).getId();
+                            locations.get(i).setId(temp-1);
                         }
                         locations.remove(index-1);
+
                         Linear_layout.removeView(view);
                         checknum--;
                     }
@@ -606,8 +681,6 @@ TimePickerDialog.OnTimeSetListener{
                 etc_button.setSelected(false);
                 culture_button.setSelected(false);
 
-
-
                 ((MainActivity) getActivity()).getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.first_fragment , origin_fragment)
@@ -616,9 +689,19 @@ TimePickerDialog.OnTimeSetListener{
 
                 break;
             }
+        }
+    }
+    @Override
+    public void onActivityResult(int requestcode, int resultcode, Intent data)
+    {
+        switch(requestcode)
+        {
+            case 0:
+                Lat = data.getExtras().getDouble("Lat");
+                Lng = data.getExtras().getDouble("Lng");
+                String latstr= String.valueOf(Lat);
+                Log.d("place", latstr);
 
         }
-
-
     }
 }

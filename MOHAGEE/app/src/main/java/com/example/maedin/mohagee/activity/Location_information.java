@@ -26,6 +26,7 @@ public class Location_information {
     {
         return smalltype;
     }
+    public int getOrder(){ return order; }
     public void setBigtype(String input)
     {
         bigtype = input;
@@ -34,6 +35,7 @@ public class Location_information {
     {
         smalltype = input;
     }
+
 
     public void setThemes(String input) {
         if(themes.size() <2)

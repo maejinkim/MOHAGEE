@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.maedin.mohagee.R;
+import com.example.maedin.mohagee.activity.MainActivity;
 
 public class Theme_fragment_etc extends Fragment implements View.OnClickListener{
     View view;
@@ -46,10 +47,15 @@ public class Theme_fragment_etc extends Fragment implements View.OnClickListener
             case R.id.park_button:
                 if(!b.isSelected()) {
                     b.setSelected(true);
+                    shopping.setSelected(false);
+                    ((SearchFragment)((MainActivity) getActivity()).getSupportFragmentManager()
+                            .findFragmentByTag("search_fragment")).setSmall_class(b.getText().toString());
                 }
                 else
                 {
                     b.setSelected(false);
+                    ((SearchFragment)((MainActivity) getActivity()).getSupportFragmentManager()
+                            .findFragmentByTag("search_fragment")).deletetheme(b.getText().toString());
                 }
 
                 break;
@@ -57,10 +63,15 @@ public class Theme_fragment_etc extends Fragment implements View.OnClickListener
             case R.id.shopping_button:
                 if(!b.isSelected()) {
                     b.setSelected(true);
+                    park.setSelected(false);
+                    ((SearchFragment)((MainActivity) getActivity()).getSupportFragmentManager()
+                            .findFragmentByTag("search_fragment")).setSmall_class(b.getText().toString());
                 }
                 else
                 {
                     b.setSelected(false);
+                    ((SearchFragment)((MainActivity) getActivity()).getSupportFragmentManager()
+                            .findFragmentByTag("search_fragment")).deletetheme(b.getText().toString());
                 }
 
                 break;

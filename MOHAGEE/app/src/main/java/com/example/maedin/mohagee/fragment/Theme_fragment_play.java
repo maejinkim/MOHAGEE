@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.maedin.mohagee.R;
+import com.example.maedin.mohagee.activity.MainActivity;
 
 public class Theme_fragment_play extends Fragment implements View.OnClickListener{
     View view;
@@ -57,10 +58,18 @@ public class Theme_fragment_play extends Fragment implements View.OnClickListene
             case R.id.billiard_button:
                 if(!b.isSelected()) {
                     b.setSelected(true);
+                    bowling.setSelected(false);
+                    pc_room.setSelected(false);
+                    room_escape.setSelected(false);
+                    singing_room.setSelected(false);
+                    ((SearchFragment)((MainActivity) getActivity()).getSupportFragmentManager()
+                            .findFragmentByTag("search_fragment")).setSmall_class(b.getText().toString());
                 }
                 else
                 {
                     b.setSelected(false);
+                    ((SearchFragment)((MainActivity) getActivity()).getSupportFragmentManager()
+                            .findFragmentByTag("search_fragment")).deletetheme(b.getText().toString());
                 }
 
                 break;
@@ -68,10 +77,18 @@ public class Theme_fragment_play extends Fragment implements View.OnClickListene
             case R.id.bowling_button:
                 if(!b.isSelected()) {
                     b.setSelected(true);
+                    billiard.setSelected(false);
+                    pc_room.setSelected(false);
+                    room_escape.setSelected(false);
+                    singing_room.setSelected(false);
+                    ((SearchFragment)((MainActivity) getActivity()).getSupportFragmentManager()
+                            .findFragmentByTag("search_fragment")).setSmall_class(b.getText().toString());
                 }
                 else
                 {
                     b.setSelected(false);
+                    ((SearchFragment)((MainActivity) getActivity()).getSupportFragmentManager()
+                            .findFragmentByTag("search_fragment")).deletetheme(b.getText().toString());
                 }
 
                 break;
@@ -79,20 +96,36 @@ public class Theme_fragment_play extends Fragment implements View.OnClickListene
             case R.id.escape_room_button:
                 if(!b.isSelected()) {
                     b.setSelected(true);
+                    bowling.setSelected(false);
+                    pc_room.setSelected(false);
+                    billiard.setSelected(false);
+                    singing_room.setSelected(false);
+                    ((SearchFragment)((MainActivity) getActivity()).getSupportFragmentManager()
+                            .findFragmentByTag("search_fragment")).setSmall_class(b.getText().toString());
                 }
                 else
                 {
                     b.setSelected(false);
+                    ((SearchFragment)((MainActivity) getActivity()).getSupportFragmentManager()
+                            .findFragmentByTag("search_fragment")).deletetheme(b.getText().toString());
                 }
                 break;
 
             case R.id.pc_room_button:
                 if(!b.isSelected()) {
                     b.setSelected(true);
+                    bowling.setSelected(false);
+                    billiard.setSelected(false);
+                    room_escape.setSelected(false);
+                    singing_room.setSelected(false);
+                    ((SearchFragment)((MainActivity) getActivity()).getSupportFragmentManager()
+                            .findFragmentByTag("search_fragment")).setSmall_class(b.getText().toString());
                 }
                 else
                 {
                     b.setSelected(false);
+                    ((SearchFragment)((MainActivity) getActivity()).getSupportFragmentManager()
+                            .findFragmentByTag("search_fragment")).deletetheme(b.getText().toString());
                 }
 
                 break;
@@ -100,10 +133,18 @@ public class Theme_fragment_play extends Fragment implements View.OnClickListene
             case R.id.singing_room:
                 if(!b.isSelected()) {
                     b.setSelected(true);
+                    bowling.setSelected(false);
+                    pc_room.setSelected(false);
+                    room_escape.setSelected(false);
+                    billiard.setSelected(false);
+                    ((SearchFragment)((MainActivity) getActivity()).getSupportFragmentManager()
+                            .findFragmentByTag("search_fragment")).setSmall_class(b.getText().toString());
                 }
                 else
                 {
                     b.setSelected(false);
+                    ((SearchFragment)((MainActivity) getActivity()).getSupportFragmentManager()
+                            .findFragmentByTag("search_fragment")).deletetheme(b.getText().toString());
                 }
 
                 break;
