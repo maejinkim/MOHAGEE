@@ -658,6 +658,46 @@ TimePickerDialog.OnTimeSetListener{
                 {
                     button.setImageResource(R.drawable.japan_button);
                 }
+                else if(small_class.equals("#당구장"))
+                {
+                    button.setImageResource(R.drawable.billiard_button);
+                }
+                else if (small_class.equals("#피시방"))
+                {
+                    button.setImageResource(R.drawable.pc_room_button);
+                }
+                else if (small_class.equals("#노래방"))
+                {
+                    button.setImageResource(R.drawable.singing_room_button);
+                }
+                else if(small_class.equals("#방탈출"))
+                {
+                    button.setImageResource(R.drawable.room_escape_button);
+                }
+                else if (small_class.equals("#볼링장"))
+                {
+                    button.setImageResource(R.drawable.bowling);
+                }
+                else if (small_class.equals("#영화"))
+                {
+                    button.setImageResource(R.drawable.cineama_button);
+                }
+                else if(small_class.equals("#연극"))
+                {
+                    button.setImageResource(R.drawable.theater_button);
+                }
+                else if(small_class.equals("#전시회"))
+                {
+                    button.setImageResource(R.drawable.gallery_button);
+                }
+                else if (small_class.equals("#쇼핑"))
+                {
+                    button.setImageResource(R.drawable.shopping_button);
+                }
+                else if(small_class.equals("#공원"))
+                {
+                    button.setImageResource(R.drawable.park);
+                }
                 button.setScaleType(ImageButton.ScaleType.CENTER_INSIDE);
                 button.setLayoutParams(params1);
 

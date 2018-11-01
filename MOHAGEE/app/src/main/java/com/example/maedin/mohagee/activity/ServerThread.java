@@ -19,11 +19,11 @@ public class ServerThread extends Thread {
 
     private Handler thHandler = null; // 쓰레드 핸들러
     private Handler fgHandler = null; // 프래그먼트 핸들러
-    private Queue<Location_information> locations;
+    private Queue<Location_information> location;
     private String time;
     private String Lat, Lng;
     private String with_who;
-    private final String cal_url = "http://163.180.116.251:8080/mohagi";
+    private final String cal_url = "http://163.180.116.251:8080/mohagi/recommend";
     private URL url = null;
     private BufferedReader in = null;
     private String inLine = "";
@@ -34,7 +34,7 @@ public class ServerThread extends Thread {
     }
     public ServerThread(Handler h) {
         fgHandler = h;
-        locations = new LinkedList<>();
+        location = new LinkedList<>();
     }
 
     public void initiate(String time, Double Lat, Double Lng, String with_who, ArrayList<Location_information> locations)
@@ -45,7 +45,7 @@ public class ServerThread extends Thread {
         this.with_who = with_who;
         for(int i = 0 ; i<locations.size() ; i++)
         {
-            locations.add(locations.get(i));
+            location.add(locations.get(i));
         }
     }
 
@@ -58,8 +58,8 @@ public class ServerThread extends Thread {
             @Override
             public void handleMessage(Message msg)
             {
-                while(locations.size() != 0) {
-                    Location_information temp = locations.poll();
+                while(location.size() != 0) {
+                    Location_information temp = location.poll();
                     String bigtype = temp.getBigtype();
                     String smalltype = temp.getSmalltype();
                     String theme1 = "", theme2 = "";
@@ -77,21 +77,30 @@ public class ServerThread extends Thread {
                     try{
                         url = new URL(cal_url + "&Lat=" + Lat + "&Lng=" + Lng + "&with_who=" + with_who + "&bigtype=" + bigtype
                         +"&smalltype=" + smalltype + "&theme1=" +theme1 + "&theme2"+theme2);
+                        Log.d("Thread_in", "1");
                     }catch (MalformedURLException e)
                     {
                         e.printStackTrace();
+                        Log.d("THEREAD_ERR", "thread_error2");
+
                     }
                     try{
                         in = new BufferedReader(new InputStreamReader(url.openStream(), "utf-8"));
+                        Log.d("Thread_in", in.toString());
+
                     } catch(IOException e)
                     {
                         e.printStackTrace();
+                        Log.d("THEREAD_ERR", "thread_error3");
+
                     }
 
                     try {
                         while ((inLine = in.readLine()) != null) {
                             xml = inLine;
                         }
+                        Log.d("Thread_in", "3");
+
                     } catch (IOException e) {
                         e.printStackTrace();
                         Log.d("THEREAD_ERR", "thread_error4");
@@ -99,11 +108,12 @@ public class ServerThread extends Thread {
 
                     try {
                         in.close();
+                        Log.d("Thread_in", "4");
                     } catch (IOException e) {
                         e.printStackTrace();
-                        Log.d("THREAD_ERR", "thrread_error5");
+                        Log.d("THREAD_ERR", "thread_error5");
                     }
-
+                    Log.d("check_this", "hihi");
                     Log.d("XMLRET", xml + "<-");
                     //jsonArray.put(xml);
                     retMsg.obj = xml;
@@ -113,7 +123,7 @@ public class ServerThread extends Thread {
             }
 
         };
-
+        Looper.loop();
     }
 
 
