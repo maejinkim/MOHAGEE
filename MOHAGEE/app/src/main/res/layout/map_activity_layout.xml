@@ -39,7 +39,7 @@
             tools:context="com.example.abcd.googlemap.MapsActivity" />
     </android.support.constraint.ConstraintLayout>
 
-    <RelativeLayout
+   <!-- <RelativeLayout
         android:layout_width="197dp"
         android:layout_height="215dp"
         android:layout_alignParentEnd="true"
@@ -59,7 +59,7 @@
             android:text="길찾기"/>
 
 
-    </RelativeLayout>
+    </RelativeLayout>-->
 
 
 </android.support.design.widget.CoordinatorLayout>

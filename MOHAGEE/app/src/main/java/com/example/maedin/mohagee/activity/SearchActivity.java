@@ -23,6 +23,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.maedin.mohagee.R;
+import com.example.maedin.mohagee.fragment.SearchFragment;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.places.Place;
@@ -50,7 +51,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class SearchActivity extends FragmentActivity implements OnMapReadyCallback, View.OnClickListener {
+public class SearchActivity extends FragmentActivity implements OnMapReadyCallback {
     private GoogleMap mMap;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 2002;
     private Geocoder geocoder;
@@ -77,12 +78,23 @@ public class SearchActivity extends FragmentActivity implements OnMapReadyCallba
     private ArrayList<String> colorlist;
     private int colornum=0;
     private int via;
+    private LatLng currentplace;
+
+
+
+   /* @Override
+    public void onReceivedData(Object data)
+    {
+
+    }*/
+
 
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent intent = getIntent();
         setContentView(R.layout.map_activity_layout);
 
         colorlist = new ArrayList<>();
@@ -92,15 +104,39 @@ public class SearchActivity extends FragmentActivity implements OnMapReadyCallba
         colorlist.add("#32CD32");
         colorlist.add("#4682B4");
         currentmarkers = new ArrayList<>();
-        //길찾기 구현 버튼
-        this.find_road_button = (Button)findViewById(R.id.find_road);
-        find_road_button.setOnClickListener(this);
+        pathThread = new PathThread(pathHandler);
+        pathThread.setDaemon(true);
+        pathThread.start();
 
 
-        //editText = (EditText) findViewById(R.id.editText);
-        //button=(Button)findViewById(R.id.button);
 
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        try {
+            JSONArray jsonArray;
+            JSONObject json = new JSONObject(intent.getStringExtra("locations"));
+            jsonArray = json.getJSONArray("locations");
+            String x = jsonArray.getJSONObject(jsonArray.length()-1).getString("Lng");
+            String y = jsonArray.getJSONObject(jsonArray.length()-1).getString("Lat");
+
+
+
+            currentplace = new LatLng(Double.valueOf(y), Double.valueOf(x));
+
+
+
+
+
+            vianumber = jsonArray.length()-1;
+            for(int  i  = 0 ; i<jsonArray.length()-1 ; i++)
+            {
+                pathThread.initiate(x,y,jsonArray.getJSONObject(i).getString("longitude"), jsonArray.getJSONObject(i).getString("latitude"),"도착");
+                x = jsonArray.getJSONObject(i).getString("longitude");
+                y = jsonArray.getJSONObject(i).getString("latitude");
+            }
+        } catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
+
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map_activity);
         mapFragment.getMapAsync(this);
@@ -130,9 +166,7 @@ public class SearchActivity extends FragmentActivity implements OnMapReadyCallba
             }
         });
 
-        pathThread = new PathThread(pathHandler);
-        pathThread.setDaemon(true);
-        pathThread.start();
+
         trackModels = new ArrayList<>();
         mapPoints = new ArrayList<>();
 
@@ -147,7 +181,6 @@ public class SearchActivity extends FragmentActivity implements OnMapReadyCallba
             colornum = 0;
         }
 
-        Log.d("younho", vianumber.toString());
 
         linewidth = linewidth +1;
         polyline = mMap.addPolyline(new PolylineOptions()
@@ -214,7 +247,7 @@ public class SearchActivity extends FragmentActivity implements OnMapReadyCallba
 
             currentMarker = this.mMap.addMarker(markerOptions);
 
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15));
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 10));
 
 
             /*if(circle != null)
@@ -258,7 +291,7 @@ public class SearchActivity extends FragmentActivity implements OnMapReadyCallba
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng point) {
-                MarkerOptions mOptions = new MarkerOptions();
+               /* MarkerOptions mOptions = new MarkerOptions();
                 // 마커 타이틀
                 mOptions.title("마커 좌표");
                 Double latitude = point.latitude; // 위도
@@ -269,7 +302,7 @@ public class SearchActivity extends FragmentActivity implements OnMapReadyCallba
                 mOptions.position(new LatLng(latitude, longitude));
                 // 마커(핀) 추가
                 googleMap.addMarker(mOptions);
-                currentmarkers.add(mOptions);
+                currentmarkers.add(mOptions);*/
 
             }
         });
@@ -303,10 +336,22 @@ public class SearchActivity extends FragmentActivity implements OnMapReadyCallba
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
         }
 
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(currentplace);
+        markerOptions.title("내 위치");
+        markerOptions.snippet(getAddress(currentplace));
+        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE));
+        markerOptions.draggable(true);
+
+        currentMarker = this.mMap.addMarker(markerOptions);
+
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentplace, 10));
+
+        pathThread.getFgHandler().sendEmptyMessage(0);
 
     }
 
-    @Override
+   /* @Override
     public void onClick(View v)
     {
         switch (v.getId())
@@ -329,7 +374,7 @@ public class SearchActivity extends FragmentActivity implements OnMapReadyCallba
                     }
                 pathThread.getFgHandler().sendEmptyMessage(0);
         }
-    }
+    }*/
 
 
 

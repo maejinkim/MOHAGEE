@@ -2,6 +2,7 @@ package com.example.maedin.mohagee.fragment;
 
 import android.app.ActionBar;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.location.Location;
 import android.os.Handler;
 import android.os.Message;
@@ -41,6 +42,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -89,6 +93,20 @@ TimePickerDialog.OnTimeSetListener{
     public void deletetheme(String theme)
     {
         themes.remove(theme);
+    }
+
+    public interface OnMyListener{
+        void onReceivedData(Object data);
+    }
+    private OnMyListener onMyListener;
+
+    @Override
+    public void onAttach(Context context)
+    {
+        super.onAttach(context);
+        if(getActivity() != null && getActivity() instanceof OnMyListener){
+            onMyListener = (OnMyListener) getActivity();
+        }
     }
 
 
@@ -454,6 +472,7 @@ TimePickerDialog.OnTimeSetListener{
                     b.setSelected(true);
                     themes.clear();
                     big_class = "cafe";
+                    setSmall_class("#카페");
                     resturant.setSelected(false);
                     play_button.setSelected(false);
                     culture_button.setSelected(false);
@@ -462,7 +481,8 @@ TimePickerDialog.OnTimeSetListener{
 
                     bundle.putString("Type", "cafe");
                     cafe_fragment.setArguments(bundle);
-                    ((MainActivity) getActivity()).getSupportFragmentManager()
+                    ((MainActivity) getActivity())
+                            .getSupportFragmentManager()
                             .beginTransaction()
                             .replace(R.id.first_fragment , cafe_fragment)
                             .commit();
@@ -476,6 +496,8 @@ TimePickerDialog.OnTimeSetListener{
                             .beginTransaction()
                             .replace(R.id.first_fragment , origin_fragment)
                             .commit();
+                    setSmall_class("");
+
                 }
 
                 break;
@@ -609,7 +631,7 @@ TimePickerDialog.OnTimeSetListener{
                     Toast.makeText(((MainActivity)getActivity()).getApplicationContext(), "모하고 놀지 선택해 주세요!",Toast.LENGTH_LONG).show();
                     break;
                 }
-                else if(small_class == "" && big_class != "cafe")
+                else if(small_class == "")
                 {
                     Toast.makeText(((MainActivity)getActivity()).getApplicationContext(), "정확히 모하고 놀지 선택해 주세요!",Toast.LENGTH_LONG).show();
                     break;
@@ -635,7 +657,7 @@ TimePickerDialog.OnTimeSetListener{
                 button.setId(checknum);
 
                 button.setBackground(ContextCompat.getDrawable(((MainActivity)getActivity()).getApplicationContext(), R.drawable.circle_button));
-                if(small_class == "") {
+                if(small_class == "#카페") {
                     button.setImageResource(R.drawable.cafe_button_new);
                 }
                 else if(small_class.equals("#중식")){
@@ -788,7 +810,27 @@ TimePickerDialog.OnTimeSetListener{
             super.handleMessage(msg);
 
             try{
+
+                JSONArray jsonArray = new JSONArray();
                 Log.d("JSON_Point", msg.obj.toString());
+                String tempstr = msg.obj.toString();
+                String arr[] = tempstr.split("Location");
+                for(int  i = 0 ; i<arr.length-1 ; i++)
+                {
+                    arr[i] = arr[i+1];
+                    JSONObject jsonObject = new JSONObject(arr[i]);
+                    jsonArray.put(jsonObject);
+                }
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("Lat", Lat);
+                jsonObject.put("Lng", Lng);
+                jsonArray.put(jsonObject);
+                JSONObject json = new JSONObject();
+                json.put("locations", jsonArray);
+                Intent intent = new Intent(getActivity(), SearchActivity.class);
+                intent.putExtra("locations", json.toString());
+                startActivity(intent);
+
             }catch (Exception e)
             {
                 e.printStackTrace();

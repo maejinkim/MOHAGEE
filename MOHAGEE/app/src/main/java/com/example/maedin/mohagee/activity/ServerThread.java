@@ -30,7 +30,6 @@ public class ServerThread extends Thread {
     private final String cal_url = "http://163.180.116.251:8080/mohagi/recommend";
     private URL url = null;
     private BufferedReader in = null;
-    private final StringBuilder sb = new StringBuilder();
     private String Result = "";
 
     private String inLine = "";
@@ -63,18 +62,22 @@ public class ServerThread extends Thread {
         Looper.prepare();
         thHandler = new Handler()
         {
+            Message retMsg = new Message();
+
             @Override
             public void handleMessage(Message msg)
             {
                 while(location.size() != 0) {
+
                     Location_information temp = location.poll();
                     bigtype = temp.getBigtype();
                     smalltype = temp.getSmalltype();
-
                     smalltype = smalltype.substring(1);
                     Log.d("checktype", smalltype);
                     Log.d("checktype", with_who);
                     Log.d("checktype", bigtype);
+                    final StringBuilder sb = new StringBuilder();
+
 
 
 
@@ -93,7 +96,6 @@ public class ServerThread extends Thread {
                     Log.d("checktype", Lat);
                     Log.d("checktype", Lng);
 
-                    Message retMsg = new Message();
 
                     try{
                         url = new URL(cal_url + "?Lat=" + Lat + "&Lng=" + Lng + "&with_who=" + with_who + "&bigtype=" + bigtype
@@ -137,11 +139,12 @@ public class ServerThread extends Thread {
                     }
                     Log.d("check_this", sb.toString());
                     //jsonArray.put(xml);
-                    Result = sb.toString().trim();
-                    retMsg.obj = Result;
-                    fgHandler.sendMessage(retMsg);
-
+                    Result += sb.toString().trim();
                 }
+                Log.d("Result", Result);
+                retMsg.obj = Result;
+                fgHandler.sendMessage(retMsg);
+
             }
 
         };
