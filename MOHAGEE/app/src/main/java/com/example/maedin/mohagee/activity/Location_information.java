@@ -14,7 +14,10 @@ public class Location_information {
     {
         bigtype = big;
         smalltype = small;
-        themes = theme;
+        themes = new ArrayList<>();
+        for (int i = 0 ; i<theme.size() ;i++){
+            themes.add(theme.get(i));
+        }
     }
     public String getBigtype()
     {

@@ -5,6 +5,8 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 
+import org.json.JSONArray;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -22,12 +24,18 @@ public class ServerThread extends Thread {
     private Queue<Location_information> location;
     private String time;
     private String Lat, Lng;
+    private String smalltype;
     private String with_who;
+    private String bigtype;
     private final String cal_url = "http://163.180.116.251:8080/mohagi/recommend";
     private URL url = null;
     private BufferedReader in = null;
+    private final StringBuilder sb = new StringBuilder();
+    private String Result = "";
+
     private String inLine = "";
-    String xml = null;
+    private String theme1 = "", theme2 = "";
+    private JSONArray Jsonarr = null;
 
     public Handler getFgHandler() {
         return thHandler;
@@ -60,24 +68,38 @@ public class ServerThread extends Thread {
             {
                 while(location.size() != 0) {
                     Location_information temp = location.poll();
-                    String bigtype = temp.getBigtype();
-                    String smalltype = temp.getSmalltype();
-                    String theme1 = "", theme2 = "";
+                    bigtype = temp.getBigtype();
+                    smalltype = temp.getSmalltype();
+
+                    smalltype = smalltype.substring(1);
+                    Log.d("checktype", smalltype);
+                    Log.d("checktype", with_who);
+                    Log.d("checktype", bigtype);
+
+
+
                     for (int i = 0; i < temp.getThemes().size(); i++) {
                         if (i == 0) {
                             theme1 = temp.getThemes().get(i);
+                            theme1 = theme1.substring(1);
                         }
                         if (i == 1) {
                             theme2 = temp.getThemes().get(i);
+                            theme2 = theme2.substring(1);
                         }
                     }
+                    Log.d("checktype", theme1);
+                    Log.d("checktype", theme2);
+                    Log.d("checktype", Lat);
+                    Log.d("checktype", Lng);
 
                     Message retMsg = new Message();
 
                     try{
-                        url = new URL(cal_url + "&Lat=" + Lat + "&Lng=" + Lng + "&with_who=" + with_who + "&bigtype=" + bigtype
-                        +"&smalltype=" + smalltype + "&theme1=" +theme1 + "&theme2"+theme2);
-                        Log.d("Thread_in", "1");
+                        url = new URL(cal_url + "?Lat=" + Lat + "&Lng=" + Lng + "&with_who=" + with_who + "&bigtype=" + bigtype
+                        +"&smalltype=" + smalltype + "&theme1=" +theme1 + "&theme2="+theme2);
+
+                        Log.d("Thread_in", url.toString());
                     }catch (MalformedURLException e)
                     {
                         e.printStackTrace();
@@ -97,7 +119,7 @@ public class ServerThread extends Thread {
 
                     try {
                         while ((inLine = in.readLine()) != null) {
-                            xml = inLine;
+                            sb.append(inLine);
                         }
                         Log.d("Thread_in", "3");
 
@@ -113,10 +135,10 @@ public class ServerThread extends Thread {
                         e.printStackTrace();
                         Log.d("THREAD_ERR", "thread_error5");
                     }
-                    Log.d("check_this", "hihi");
-                    Log.d("XMLRET", xml + "<-");
+                    Log.d("check_this", sb.toString());
                     //jsonArray.put(xml);
-                    retMsg.obj = xml;
+                    Result = sb.toString().trim();
+                    retMsg.obj = Result;
                     fgHandler.sendMessage(retMsg);
 
                 }
