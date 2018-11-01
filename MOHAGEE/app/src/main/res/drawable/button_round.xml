@@ -6,6 +6,7 @@
     <item android:state_selected="false">
     <shape>
         <solid android:color="#FFFF" />
+        <stroke android:color="#DCDCDC" android:width="1.5dp" />
         <corners
             android:bottomLeftRadius="20dp"
             android:bottomRightRadius="20dp"
@@ -17,7 +18,8 @@
 
     <item android:state_selected="true">
         <shape>
-            <solid android:color="#FFFF" />
+            <stroke android:color="#DCDCDC" android:width="1.5dp" />
+            <solid android:color="#DDA0DD" />
             <corners
                 android:bottomLeftRadius="20dp"
                 android:bottomRightRadius="20dp"

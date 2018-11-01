@@ -721,8 +721,18 @@ TimePickerDialog.OnTimeSetListener{
 
                         Linear_layout.removeView(view);
                         checknum--;
+
+                        if(loc_list.size() == 0)
+                        {
+                            result_button.setSelected(false);
+                        }
                     }
                 });
+
+                if(loc_list.size() >=1)
+                {
+                    result_button.setSelected(true);
+                }
 
                 checknum ++;
                 themes.clear();
@@ -745,6 +755,11 @@ TimePickerDialog.OnTimeSetListener{
             }
             case R.id.show_result_button:
             {
+                if(loc_list.size() == 0)
+                {
+                    Toast.makeText(((MainActivity)getActivity()).getApplicationContext(), "스케줄을 담아주세요!", Toast.LENGTH_LONG).show();
+                    break;
+                }
                 serverThread.initiate(time,Lat, Lng, with_who, loc_list);
                 serverThread.getFgHandler().sendEmptyMessage(0);
                 break;
