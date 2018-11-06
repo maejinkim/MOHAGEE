@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/resturant_theme"
+    android:layout_width="match_parent"
+    android:background="#FFFFFF"
+    android:layout_height="match_parent">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="* 소분류 (택 1)"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:id="@+id/little_type_text_resturant"/>
+
+    <Button
+        android:layout_below="@+id/little_type_text_resturant"
+        android:layout_marginLeft="20dp"
+        android:textColor="@drawable/text_selector"
+        android:layout_marginTop="20dp"
+        android:layout_width="80dp"
+        android:layout_height="30dp"
+        android:id="@+id/koreafood_button"
+        android:background="@drawable/button_round"
+        android:text="#한식"
+        />
+    <Button
+        android:layout_marginTop="20dp"
+        android:textColor="@drawable/text_selector"
+        android:layout_below="@+id/little_type_text_resturant"
+
+        android:id="@+id/chinafood_button"
+        android:layout_toRightOf="@+id/koreafood_button"
+        android:layout_width="80dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/button_round"
+        android:text="#중식"
+        />
+    <Button
+        android:layout_marginTop="20dp"
+        android:textColor="@drawable/text_selector"
+        android:layout_below="@+id/little_type_text_resturant"
+
+        android:id="@+id/japanfood_button"
+        android:layout_toRightOf="@+id/chinafood_button"
+        android:layout_width="80dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/button_round"
+        android:text="#일식"
+        />
+    <Button
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/koreafood_button"
+        android:id="@+id/westfood_button"
+        android:layout_width="80dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="20dp"
+        android:background="@drawable/button_round"
+        android:textColor="@drawable/text_selector"
+
+        android:text="#양식"
+        />
+    <Button
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/koreafood_button"
+        android:id="@+id/snack_button"
+        android:layout_width="80dp"
+        android:layout_height="30dp"
+        android:layout_toRightOf="@+id/kind_button"
+        android:textColor="@drawable/text_selector"
+
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/button_round"
+        android:text="#분식"
+        />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/westfood_button"
+        android:text="* 테마 (택 2)"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:id="@+id/theme_text_resturant"
+        />
+
+    <Button
+        android:layout_below="@id/theme_text_resturant"
+        android:layout_marginLeft="20dp"
+        android:textColor="@drawable/text_selector"
+        android:layout_marginTop="20dp"
+        android:layout_width="80dp"
+        android:layout_height="30dp"
+        android:id="@+id/delicious_button"
+        android:background="@drawable/button_round"
+        android:text="#존맛"
+        />
+    <Button
+        android:layout_below="@id/theme_text_resturant"
+        android:layout_marginTop="20dp"
+        android:textColor="@drawable/text_selector"
+
+        android:id="@+id/chip_button"
+        android:layout_toRightOf="@+id/delicious_button"
+        android:layout_width="80dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/button_round"
+        android:text="#저렴"
+        />
+    <Button
+        android:layout_below="@id/theme_text_resturant"
+        android:layout_marginTop="20dp"
+        android:textColor="@drawable/text_selector"
+
+        android:id="@+id/clean_button"
+        android:layout_toRightOf="@+id/chip_button"
+        android:layout_width="80dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/button_round"
+        android:text="#깨끗"
+        />
+    <Button
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/delicious_button"
+        android:id="@+id/kind_button"
+        android:layout_width="80dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="20dp"
+        android:background="@drawable/button_round"
+        android:textColor="@drawable/text_selector"
+
+        android:text="#친절"
+        />
+    <Button
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/delicious_button"
+        android:id="@+id/background_button_resturant"
+        android:layout_width="80dp"
+        android:layout_height="30dp"
+        android:layout_toRightOf="@+id/kind_button"
+        android:textColor="@drawable/text_selector"
+
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/button_round"
+        android:text="#전망"
+        />
+    <Button
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/delicious_button"
+        android:id="@+id/different_button_resturant"
+        android:layout_width="80dp"
+        android:layout_height="30dp"
+        android:textColor="@drawable/text_selector"
+        android:layout_toRightOf="@+id/background_button_resturant"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/button_round"
+        android:text="#이색"
+        />
+    <Button
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/kind_button"
+        android:id="@+id/many_button"
+        android:textColor="@drawable/text_selector"
+
+        android:layout_width="80dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="20dp"
+        android:background="@drawable/button_round"
+        android:text="#푸짐">
+
+    </Button>
+</RelativeLayout>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="내가 담은 목록"
+        android:gravity="center"
+        android:textSize="20dp"
+        android:layout_margin="20dp"/>
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="3">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="전체선택"
+            android:layout_columnWeight="1"
+            android:id="@+id/custom_all"
+            />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="전체삭제"
+            android:layout_columnWeight="1"
+            android:id="@+id/custom_all_delete"
+            />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="선택삭제"
+            android:layout_columnWeight="1"
+            android:id="@+id/custom_selete_delete"
+            />
+
+    </GridLayout>
+
+    <ListView
+        android:layout_width="match_parent"
+        android:id="@+id/custom_list"
+        android:layout_height="400dp"
+        android:choiceMode="multipleChoice">
+    </ListView>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Custom 경로 만들기"
+        android:id="@+id/btn_custom_result"/>
+
+
+</LinearLayout>

@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/img_detail"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:src="@drawable/detail_view_temp"
+        android:background="#c8c8c8" />
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="0dp"
+        android:stretchColumns="*">
+
+        <TableRow>
+
+            <RelativeLayout
+                android:id="@+id/heartLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@color/white">
+
+                <ImageView
+                    android:id="@+id/image_heart_red"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="0dp"
+                    android:src="@drawable/ic_heart_red"
+                    android:visibility="invisible" />
+
+                <ImageView
+                    android:id="@+id/image_heart"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="0dp"
+                    android:src="@drawable/ic_heart_white"
+                    android:visibility="visible" />
+
+            </RelativeLayout>
+
+            <GridLayout
+                android:layout_width="wrap_content"
+                android:layout_height="80dp"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:columnCount="3"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/txt_detail_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_columnSpan="3"
+                    android:layout_gravity="fill"
+                    android:gravity="center"
+                    android:text="장소 이름"
+                    android:textSize="12pt" />
+
+
+                <TextView
+                    android:id="@+id/txt_detail_mc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:text="대분류" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:text=">" />
+
+                <TextView
+                    android:id="@+id/txt_detail_sc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:text="소분류" />
+
+            </GridLayout>
+            <ImageView>
+            </ImageView>>
+            <ImageView>
+            </ImageView>>
+        </TableRow>
+
+    </TableLayout>
+    <TableLayout
+        android:layout_marginTop="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:stretchColumns="*">
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/txt_detail_theme1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text="아늑"
+                android:textColor="@color/colorTheme" />
+
+            <TextView
+                android:id="@+id/txt_detail_theme2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="감성"
+                android:textColor="@color/colorTheme" />
+
+            <TextView
+                android:id="@+id/txt_detail_theme3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:text="너무쪼아"
+                android:textColor="@color/colorTheme" />
+        </TableRow>
+
+    </TableLayout>
+
+
+
+    <TextView
+        android:id="@+id/txt_detail_address"
+        android:layout_width="match_parent"
+        android:layout_height="43dp"
+        android:layout_column="0"
+        android:layout_columnSpan="3"
+        android:layout_gravity="fill"
+        android:layout_row="1"
+        android:gravity="center"
+        android:text="주소" />
+
+    <TableLayout
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_detail_address"
+        android:layout_marginTop="0dp"
+        android:layout_gravity="center"
+        android:stretchColumns="*">
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="0dp"
+                android:gravity="center"
+                android:text="★"
+                android:textColor="#ffc800"
+                android:textSize="15dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="별점 "
+                android:textSize="15dp" />
+
+            <TextView
+                android:id="@+id/txt_detail_popularity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5"
+                android:textSize="15dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="점 "
+                android:textSize="15dp" />
+        </TableRow>
+
+    </TableLayout>
+
+
+
+    <FrameLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ffdada">
+
+    </FrameLayout>
+
+</LinearLayout>
