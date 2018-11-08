@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:text="*기본위치: 서울특별시 서초구 강남대로 강남역"
+        android:gravity="center"/>
+    <Button
+        android:id="@+id/btn_custom_default"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:text="기본위치로 시작하기"
+        android:background="@drawable/btn_category"/>
+
+    <Button
+        android:id="@+id/btn_custom_select"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:text="시작 위치 설정하기"
+        android:background="@drawable/btn_category"/>
+
+
+</LinearLayout>

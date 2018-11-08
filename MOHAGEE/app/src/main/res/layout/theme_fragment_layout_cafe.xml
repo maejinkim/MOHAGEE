@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/cafe_theme"
+    android:layout_width="match_parent"
+    android:background="#FFFFFF"
+    android:layout_height="match_parent">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:text="* 테마 (택 2)"
+        android:id="@+id/theme_text_cafe"/>
+    <Button
+        android:layout_below="@+id/theme_text_cafe"
+        android:layout_marginLeft="20dp"
+        android:textColor="@drawable/text_selector"
+        android:layout_marginTop="20dp"
+        android:layout_width="70dp"
+        android:layout_height="30dp"
+        android:id="@+id/feel_button"
+        android:background="@drawable/button_round"
+        android:text="#감성"
+        />
+    <Button
+        android:layout_marginTop="20dp"
+        android:textColor="@drawable/text_selector"
+        android:layout_below="@+id/theme_text_cafe"
+
+        android:id="@+id/background_button"
+        android:layout_toRightOf="@+id/feel_button"
+        android:layout_width="70dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/button_round"
+        android:text="#전망"
+        />
+    <Button
+        android:layout_marginTop="20dp"
+        android:textColor="@drawable/text_selector"
+        android:layout_below="@+id/theme_text_cafe"
+
+        android:id="@+id/vintage_button"
+        android:layout_toRightOf="@+id/background_button"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/button_round"
+        android:text="#빈티지"
+        />
+    <Button
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/feel_button"
+        android:id="@+id/brunch_button"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginLeft="20dp"
+        android:background="@drawable/button_round"
+        android:textColor="@drawable/text_selector"
+
+        android:text="#브런치"
+        />
+    <Button
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/feel_button"
+        android:id="@+id/different_button"
+        android:layout_width="70dp"
+        android:layout_height="30dp"
+        android:layout_toRightOf="@+id/brunch_button"
+        android:textColor="@drawable/text_selector"
+
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/button_round"
+        android:text="#이색"
+        />
+    <Button
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/feel_button"
+        android:id="@+id/quite_button"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:textColor="@drawable/text_selector"
+
+        android:layout_toRightOf="@+id/different_button"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/button_round"
+        android:text="#조용한"
+        />
+    <Button
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/brunch_button"
+        android:id="@+id/qute_button"
+        android:textColor="@drawable/text_selector"
+
+        android:layout_width="100dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="20dp"
+        android:background="@drawable/button_round"
+        android:text="#아기자기">
+
+    </Button>
+</RelativeLayout>

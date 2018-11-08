@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white">
+
+
+    <ImageView
+        android:id="@+id/img_detail"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#c8c8c8"
+        android:scaleType="fitXY"
+        android:src="@drawable/detail_view_temp" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:orientation="vertical">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="120dp">
+
+
+            <ImageView
+                android:id="@+id/image_heart_red"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_margin="15dp"
+                android:src="@drawable/ic_heart_red"
+                android:visibility="invisible"
+                android:layout_alignParentRight="true"/>
+
+            <ImageView
+                android:id="@+id/image_heart"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_margin="15dp"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/ic_heart_white"
+                android:visibility="visible" />
+
+
+            <TextView
+                android:layout_marginTop="20dp"
+                android:id="@+id/txt_detail_name"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_columnSpan="3"
+                android:gravity="center"
+                android:text="장소 이름"
+                android:textSize="30dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txt_detail_name"
+                android:orientation="horizontal"
+                android:id="@+id/layout_detail_category"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/txt_detail_mc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="대분류" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:text=">" />
+
+                <TextView
+                    android:id="@+id/txt_detail_sc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="소분류" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/layout_detail_category"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/txt_detail_theme1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="#아늑"
+                    android:textColor="@color/colorTheme" />
+
+                <TextView
+                    android:id="@+id/txt_detail_theme2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="#감성"
+                    android:layout_marginLeft="15dp"
+                    android:textColor="@color/colorTheme" />
+
+                <TextView
+                    android:id="@+id/txt_detail_theme3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="#분위기"
+                    android:layout_marginLeft="15dp"
+                    android:textColor="@color/colorTheme" />
+
+            </LinearLayout>
+
+
+
+
+        </RelativeLayout>
+
+
+
+        <TextView
+            android:id="@+id/txt_detail_address"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:textSize="17dp"
+            android:text="주소" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+
+            <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="0dp"
+            android:gravity="center"
+            android:text="★"
+            android:textColor="#ffc800"
+            android:textSize="15dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="별점 "
+                android:textSize="15dp" />
+
+            <TextView
+                android:id="@+id/txt_detail_popularity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5"
+                android:textSize="15dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="점 "
+                android:textSize="15dp" />
+
+        </LinearLayout>
+
+
+
+
+
+
+    </LinearLayout>
+
+</LinearLayout>

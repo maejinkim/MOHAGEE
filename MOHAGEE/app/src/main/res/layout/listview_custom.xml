@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.example.maedin.mohagee.Layout.CheckableLinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:layout_margin="20dp">
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:columnCount="2">
+
+
+            <LinearLayout
+
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/list_custom_name"
+                    android:text="장소 이름"
+                    android:textSize="30dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/list_custom_category"
+                    android:text="카테고리"
+                    android:textSize="15dp"
+                    android:layout_marginLeft="10dp"/>
+
+            </LinearLayout>
+
+
+
+        <CheckBox
+            android:layout_gravity="right"
+            android:layout_height="wrap_content"
+            android:id="@+id/list_custom_cb"
+            android:focusable="false"
+            android:clickable="false"
+            android:layout_rowSpan="2"
+            android:layout_rowWeight="2"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:id="@+id/list_custom_theme"
+            android:text="#테마 #모하지 #화이팅 #성공적"
+            android:textSize="15dp"
+            android:textColor="@color/colorTheme"/>
+
+    </GridLayout>
+
+
+
+
+</com.example.maedin.mohagee.Layout.CheckableLinearLayout>

@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+        <LinearLayout
+            android:orientation="vertical" android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:id="@+id/select_where"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp">
+                <TextView
+                    android:layout_marginLeft="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/when_topic"
+                    android:text="언제 모하지?"
+                    android:textColor="#000000"
+                    />
+
+                <Button
+                    android:layout_marginLeft="20dp"
+
+                    android:layout_marginTop="20dp"
+                    android:layout_below="@+id/when_topic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:id="@+id/right_now"
+                    android:background="@drawable/button_round"
+                    android:textColor="@drawable/text_selector"
+                    android:text="#지금 당장"
+                    />
+                <Button
+                    android:layout_marginTop="20dp"
+                    android:layout_below="@+id/when_topic"
+                    android:id="@+id/after"
+                    android:layout_toRightOf="@+id/right_now"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="10dp"
+                    android:textColor="@drawable/text_selector"
+                    android:background="@drawable/button_round"
+                    android:text="#나중에"
+                    />
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="13dp"
+                android:background="@color/colorPrimaryDark"
+                >
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:background="#FFFFFF"
+                >
+                <TextView
+                    android:layout_marginTop="8dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/where_topic"
+                    android:text="어디서 모하지?"
+                    android:textColor="#000000"
+                    />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#000000">
+
+                <com.google.android.gms.maps.MapView
+                    android:id="@+id/map_part"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:name="com.google.android.gms.maps.MapFragment"
+                    />
+                <Button
+                    android:id="@+id/over_map_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:background="#00ff0000"/>
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/select_who"
+                android:layout_width="wrap_content"
+                android:layout_height="140dp"
+                android:layout_marginBottom="10dp">
+                <TextView
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/who_topic"
+                    android:text="누구랑 모하지?"
+                    android:textColor="#000000"
+                    />
+
+                <Button
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_below="@+id/who_topic"
+                    android:layout_width="70dp"
+                    android:layout_height="30dp"
+                    android:id="@+id/solo"
+                    android:textColor="@drawable/text_selector"
+                    android:background="@drawable/button_round"
+                    android:text="#혼자"
+                    />
+                <Button
+                    android:layout_marginTop="20dp"
+                    android:textColor="@drawable/text_selector"
+                    android:layout_below="@+id/who_topic"
+                    android:id="@+id/with_friend"
+                    android:layout_toRightOf="@+id/solo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/button_round"
+                    android:text="#친구랑"
+                    />
+                <Button
+                    android:layout_marginTop="20dp"
+                    android:textColor="@drawable/text_selector"
+                    android:layout_below="@+id/who_topic"
+                    android:id="@+id/with_parent"
+                    android:layout_toRightOf="@+id/with_friend"
+                    android:layout_width="130dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/button_round"
+                    android:text="#부모님과 함께"
+                    />
+                <Button
+                    android:layout_marginTop="10dp"
+                    android:layout_below="@+id/solo"
+                    android:id="@+id/doing_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="20dp"
+                    android:background="@drawable/button_round"
+                    android:textColor="@drawable/text_selector"
+                    android:text="#데이트"
+                    />
+                <Button
+                    android:layout_marginTop="10dp"
+                    android:layout_below="@+id/solo"
+                    android:id="@+id/with_children"
+                    android:layout_width="130dp"
+                    android:layout_height="30dp"
+                    android:layout_toRightOf="@+id/doing_date"
+                    android:textColor="@drawable/text_selector"
+
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/button_round"
+                    android:text="#아이들과 함께"
+                    />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="13dp"
+                android:background="@color/colorPrimaryDark"
+                >
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/select_activity"
+                android:layout_width="wrap_content"
+
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp">
+                <TextView
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/activity_topic"
+                    android:text="이제 모하지?"
+                    android:textColor="#000000"
+                    />
+
+                <Button
+                    android:layout_marginLeft="20dp"
+                    android:textColor="@drawable/text_selector"
+
+                    android:layout_marginTop="20dp"
+                    android:layout_below="@+id/activity_topic"
+                    android:layout_width="70dp"
+                    android:layout_height="30dp"
+                    android:id="@+id/resturant"
+                    android:background="@drawable/button_round"
+                    android:text="#맛집"
+                    />
+                <Button
+                    android:layout_marginTop="20dp"
+                    android:textColor="@drawable/text_selector"
+
+                    android:layout_below="@+id/activity_topic"
+                    android:id="@+id/cafe"
+                    android:layout_toRightOf="@+id/resturant"
+                    android:layout_width="70dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/button_round"
+                    android:text="#카페"
+                    />
+                <Button
+                    android:layout_marginTop="20dp"
+                    android:textColor="@drawable/text_selector"
+
+                    android:layout_below="@+id/activity_topic"
+                    android:id="@+id/play"
+                    android:layout_toRightOf="@+id/cafe"
+                    android:layout_width="70dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/button_round"
+                    android:text="#놀이"
+                    />
+                <Button
+                    android:layout_marginTop="10dp"
+                    android:layout_below="@+id/resturant"
+                    android:id="@+id/culture"
+                    android:layout_width="70dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="20dp"
+                    android:background="@drawable/button_round"
+                    android:textColor="@drawable/text_selector"
+
+                    android:text="#문화"
+                    />
+                <Button
+                    android:layout_marginTop="10dp"
+                    android:layout_below="@+id/resturant"
+                    android:id="@+id/etc"
+                    android:layout_width="70dp"
+                    android:layout_height="30dp"
+                    android:layout_toRightOf="@+id/culture"
+                    android:textColor="@drawable/text_selector"
+
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/button_round"
+                    android:text="#기타"
+                    />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="13dp"
+                android:background="@color/colorPrimaryDark"
+                >
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="20dp"
+                    android:textColor="#000000"
+                    android:background="#FFFFFF"
+                    android:text="정확히 모하지?"/>
+            </RelativeLayout>
+
+            <FrameLayout
+                android:id="@+id/first_fragment"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:gravity="center"
+                android:textSize="10pt"
+                android:background="#FFFFFF">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="무엇을 할지 선택해 주세요"
+                    android:gravity="center"
+                    android:textSize="20pt"
+                    android:textColor="#D3D3D3"
+
+                    />
+            </FrameLayout>
+            <HorizontalScrollView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_marginTop="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal"
+                    android:id="@+id/dynamic_area"
+                    >
+                </LinearLayout>
+            </HorizontalScrollView>
+
+        </LinearLayout>
+    </ScrollView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#00ff0000"
+        >
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="#추가하기"
+            android:layout_margin="5dp"
+            android:id="@+id/add_button"
+            android:textColor="@color/white"
+            android:background="@drawable/btn_category2"/>
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="#결과보기"
+            android:id="@+id/show_result_button"
+            android:textColor="@color/white"
+            android:layout_margin="2dp"
+            android:background="@drawable/btn_category2"/>
+    </LinearLayout>
+
+</LinearLayout>
