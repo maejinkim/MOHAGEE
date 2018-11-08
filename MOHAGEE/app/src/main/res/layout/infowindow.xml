@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/rounded">
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="16dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+        android:textSize="24sp"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:src="@drawable/line"
+        app:layout_constraintTop_toBottomOf="@+id/name" />
+
+    <ImageView
+        android:id="@+id/directions"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginRight="7dp"
+        android:layout_marginTop="11dp"
+        android:src="@drawable/sign"
+        app:layout_constraintRight_toLeftOf="@+id/details"
+        app:layout_constraintTop_toBottomOf="@+id/tv" />
+
+    <ImageView
+        android:id="@+id/distances"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginRight="7dp"
+        android:layout_marginTop="11dp"
+        android:src="@drawable/distance"
+        app:layout_constraintRight_toLeftOf="@+id/hotels"
+        app:layout_constraintTop_toBottomOf="@+id/details" />
+
+    <ImageView
+        android:id="@+id/open"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginRight="7dp"
+        android:layout_marginTop="11dp"
+        android:src="@drawable/open"
+        app:layout_constraintRight_toLeftOf="@+id/food"
+        app:layout_constraintTop_toBottomOf="@+id/hotels" />
+
+    <ImageView
+        android:id="@+id/telephone"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginRight="7dp"
+        android:layout_marginTop="11dp"
+        android:src="@drawable/telephone"
+        app:layout_constraintRight_toLeftOf="@+id/transport"
+        app:layout_constraintTop_toBottomOf="@+id/food" />
+
+    <TextView
+        android:id="@+id/details"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="45dp"
+        android:layout_marginRight="45dp"
+        android:layout_marginTop="11dp"
+        android:singleLine="false"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv" />
+
+    <TextView
+        android:id="@+id/hotels"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="45dp"
+        android:layout_marginRight="45dp"
+        android:layout_marginTop="11dp"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/details" />
+
+    <TextView
+        android:id="@+id/food"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="45dp"
+        android:layout_marginRight="45dp"
+        android:layout_marginTop="11dp"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/hotels" />
+
+    <TextView
+        android:id="@+id/transport"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="45dp"
+        android:layout_marginRight="45dp"
+        android:layout_marginTop="11dp"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/food" />
+
+
+
+    <TextView
+        android:id="@+id/tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintRight_toLeftOf="@+id/details"
+
+        android:textColor="#000000"
+
+        app:layout_constraintTop_toBottomOf="@+id/line" />
+    <!--  <ImageView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:id="@+id/star_clicked"
+          android:padding="0dp"
+          app:layout_constraintRight_toLeftOf="@id/road_research"
+          app:layout_constraintTop_toBottomOf="@+id/transport"
+          android:focusableInTouchMode="true"
+          android:src="@drawable/imgbtn_states"/>&ndash;&gt;-->
+
+
+
+</android.support.constraint.ConstraintLayout>

@@ -20,14 +20,19 @@ import android.support.v4.content.ContextCompat;
 import android.util.JsonReader;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.maedin.mohagee.R;
 import com.example.maedin.mohagee.fragment.SearchFragment;
+import com.example.maedin.mohagee.item.InfoWindowData;
+import com.example.maedin.mohagee.item.Location_information;
 import com.example.maedin.mohagee.item.TrackModel;
 import com.example.maedin.mohagee.thread.PathThread;
 import com.google.android.gms.common.api.Status;
@@ -53,6 +58,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -64,6 +70,8 @@ public class SearchActivity extends FragmentActivity implements OnMapReadyCallba
             private Marker currentMarker = null; // 지정 위치 마커
             private PathThread pathThread;
             private Polyline polyline = null;
+            private ViewGroup infoWindow;
+
             private Double CurrentLat;
             private ArrayList<LatLng> mapPoints = null;
             private Double CurrentLng;
@@ -80,6 +88,7 @@ public class SearchActivity extends FragmentActivity implements OnMapReadyCallba
             private LatLng currentplace;
 
             private ArrayList<LatLng> viamarkers;
+            private ArrayList<Location_information> viainfo;
 
 
 
@@ -87,8 +96,9 @@ public class SearchActivity extends FragmentActivity implements OnMapReadyCallba
             protected void onCreate(Bundle savedInstanceState) {
                 super.onCreate(savedInstanceState);
                 Intent intent = getIntent();
-                setContentView(R.layout.map_activity_layout);
 
+                setContentView(R.layout.map_activity_layout);
+                viainfo = new ArrayList<>();
                 colorlist = new ArrayList<>();
                 viamarkers = new ArrayList<>();
                 colorlist.add("#800000");
@@ -121,6 +131,17 @@ public class SearchActivity extends FragmentActivity implements OnMapReadyCallba
                 y = jsonArray.getJSONObject(i).getString("latitude");
                 LatLng templatlng = new LatLng(Double.valueOf(y), Double.valueOf(x));
                 viamarkers.add(templatlng);
+                ArrayList<String> temp = new ArrayList<>();
+               //if(jsonArray.getJSONObject(i).getString(""))
+
+                Location_information location_information = new Location_information(
+                        jsonArray.getJSONObject(i).getString("big_ctg"),
+                        jsonArray.getJSONObject(i).getString("small_ctg")
+                        );
+                location_information.setAddress( jsonArray.getJSONObject(i).getString("loc_addr"));
+                location_information.setTime( jsonArray.getJSONObject(i).getString("loc_time"));
+                location_information.setName( jsonArray.getJSONObject(i).getString("loc_name"));
+                viainfo.add(location_information);
             }
         } catch (JSONException e)
         {
@@ -270,6 +291,7 @@ public class SearchActivity extends FragmentActivity implements OnMapReadyCallba
         geocoder = new Geocoder(this);
         mMap.getUiSettings().setCompassEnabled(true); // 나침반 설정
 
+        this.infoWindow = (ViewGroup)getLayoutInflater().inflate(R.layout.infowindow,null);
 
         if (PackageManager.PERMISSION_GRANTED != ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION)) {
@@ -339,19 +361,82 @@ public class SearchActivity extends FragmentActivity implements OnMapReadyCallba
 
         for(int i = 0 ; i<viamarkers.size() ; i++)
         {
+            InfoWindowData info = new InfoWindowData();
             MarkerOptions markerOptions1 = new MarkerOptions();
             markerOptions1.position(viamarkers.get(i));
             markerOptions1.snippet(getAddress(viamarkers.get(i)));
             markerOptions1.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE));
             markerOptions1.draggable(true);
             mMap.addMarker(markerOptions1);
+            mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter(){
+                @Override
+                public View getInfoWindow(Marker marker) {
+                    return null;
+                }
+
+                @Override
+                public View getInfoContents(Marker marker) {
+
+                    infoWindow.setLayoutParams(new RelativeLayout.LayoutParams(900,RelativeLayout.LayoutParams.WRAP_CONTENT));
+
+
+                    TextView name_tv = infoWindow.findViewById(R.id.name);
+                    TextView details_tv = infoWindow.findViewById(R.id.details);
+                    // ImageView img = view.findViewById(R.id.pic);
+
+                    TextView hotel_tv = infoWindow.findViewById(R.id.hotels);
+                    TextView food_tv = infoWindow.findViewById(R.id.food);
+                    TextView transport_tv = infoWindow.findViewById(R.id.transport);
+
+                    name_tv.setText(marker.getTitle());
+                    details_tv.setText(marker.getSnippet());
+
+                    InfoWindowData infoWindowData = new InfoWindowData();
+                    Location_information newone = new Location_information();
+
+                    //RatingBar ratBar = (RatingBar) infoWindow.findViewById(R.id.ratingBar);
+                    //ratBar.setRating((float)2.5);
+                    TextView tv = (TextView) infoWindow.findViewById(R.id.tv);
+                    tv.setText("2.5");
+
+                    newone = (Location_information)marker.getTag();
+
+                    if(newone.getTel_num().equals(""))
+                    {
+                        ImageView v = infoWindow.findViewById(R.id.telephone);
+                        v.setVisibility(View.INVISIBLE);
+                    }
+                    else
+                    {
+                        infoWindow.setVisibility(View.VISIBLE);
+                    }
+                    String big_small_type = newone.getBigtype() + "  "+newone.getSmalltype();
+                    infoWindowData.setHotel(big_small_type);
+
+
+
+                    int imageId = SearchActivity.this.getResources().getIdentifier(infoWindowData.getImage().toLowerCase(),"drawable", SearchActivity.this.getPackageName());
+                    //  img.setImageResource(imageId);
+
+                    infoWindowData.setFood(newone.getTime());
+                    infoWindowData.setTransport(newone.getTel_num());
+
+
+
+                    hotel_tv.setText(infoWindowData.getHotel());
+                    food_tv.setText(infoWindowData.getFood());
+                    transport_tv.setText(infoWindowData.getTransport());
+
+
+                    return infoWindow;
+                }
+            });
         }
 
 
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentplace, 10));
 
         pathThread.getFgHandler().sendEmptyMessage(0);
-
     }
 
    /* @Override

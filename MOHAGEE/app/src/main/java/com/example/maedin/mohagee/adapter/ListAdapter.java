@@ -109,7 +109,7 @@ public class ListAdapter extends BaseAdapter {
                     temp.put("Lng", Lng);
                     for(int i = 0 ; i<items.get(position).size() ; i++)
                     {
-                        newsend.put(items.get(i));
+                        newsend.put(items.get(position).get(i));
                     }
                     newsend.put(temp);
                     JSONObject json = new JSONObject();
