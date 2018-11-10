@@ -60,8 +60,10 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Queue;
 
 public class SearchActivity extends FragmentActivity implements OnMapReadyCallback {
             private GoogleMap mMap;
@@ -71,6 +73,7 @@ public class SearchActivity extends FragmentActivity implements OnMapReadyCallba
             private PathThread pathThread;
             private Polyline polyline = null;
             private ViewGroup infoWindow;
+            private ViewGroup my_location;
 
             private Double CurrentLat;
             private ArrayList<LatLng> mapPoints = null;
@@ -88,7 +91,7 @@ public class SearchActivity extends FragmentActivity implements OnMapReadyCallba
             private LatLng currentplace;
 
             private ArrayList<LatLng> viamarkers;
-            private ArrayList<Location_information> viainfo;
+            private Queue<Location_information> viainfo;
 
 
 
@@ -98,7 +101,7 @@ public class SearchActivity extends FragmentActivity implements OnMapReadyCallba
                 Intent intent = getIntent();
 
                 setContentView(R.layout.map_activity_layout);
-                viainfo = new ArrayList<>();
+                viainfo = new LinkedList<>();
                 colorlist = new ArrayList<>();
                 viamarkers = new ArrayList<>();
                 colorlist.add("#800000");
@@ -141,6 +144,10 @@ public class SearchActivity extends FragmentActivity implements OnMapReadyCallba
                 location_information.setAddress( jsonArray.getJSONObject(i).getString("loc_addr"));
                 location_information.setTime( jsonArray.getJSONObject(i).getString("loc_time"));
                 location_information.setName( jsonArray.getJSONObject(i).getString("loc_name"));
+                location_information.setBigtype(jsonArray.getJSONObject(i).getString("big_ctg"));
+                location_information.setSmalltype(jsonArray.getJSONObject(i).getString("small_ctg"));
+                //location_information.setTel_num(jsonArray.getJSONObject(i).getString("loc_number"));
+                location_information.setRating(jsonArray.getJSONObject(i).getString("star"));
                 viainfo.add(location_information);
             }
         } catch (JSONException e)
@@ -292,7 +299,7 @@ public class SearchActivity extends FragmentActivity implements OnMapReadyCallba
         mMap.getUiSettings().setCompassEnabled(true); // 나침반 설정
 
         this.infoWindow = (ViewGroup)getLayoutInflater().inflate(R.layout.infowindow,null);
-
+        this.my_location = (ViewGroup)getLayoutInflater().inflate(R.layout.mylocation,null);
         if (PackageManager.PERMISSION_GRANTED != ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION)) {
             ActivityCompat.requestPermissions(this,
@@ -367,7 +374,20 @@ public class SearchActivity extends FragmentActivity implements OnMapReadyCallba
             markerOptions1.snippet(getAddress(viamarkers.get(i)));
             markerOptions1.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE));
             markerOptions1.draggable(true);
-            mMap.addMarker(markerOptions1);
+
+            InfoWindowData infoWindowData = new InfoWindowData();
+            Location_information newone = viainfo.poll();
+
+            String big_small_type = newone.getBigtype() + "  "+newone.getSmalltype();
+            infoWindowData.setTitle(newone.getName());
+            infoWindowData.setbigsmalltype(big_small_type);
+            infoWindowData.setTime(newone.getTime());
+            infoWindowData.setTelnum(newone.getTel_num());
+            infoWindowData.setaddress(newone.getAddress());
+            infoWindowData.setRating(newone.getRating());
+
+            Marker m = mMap.addMarker(markerOptions1);
+            m.setTag(infoWindowData);
             mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter(){
                 @Override
                 public View getInfoWindow(Marker marker) {
@@ -376,59 +396,46 @@ public class SearchActivity extends FragmentActivity implements OnMapReadyCallba
 
                 @Override
                 public View getInfoContents(Marker marker) {
-
-                    infoWindow.setLayoutParams(new RelativeLayout.LayoutParams(900,RelativeLayout.LayoutParams.WRAP_CONTENT));
-
-
-                    TextView name_tv = infoWindow.findViewById(R.id.name);
-                    TextView details_tv = infoWindow.findViewById(R.id.details);
-                    // ImageView img = view.findViewById(R.id.pic);
-
-                    TextView hotel_tv = infoWindow.findViewById(R.id.hotels);
-                    TextView food_tv = infoWindow.findViewById(R.id.food);
-                    TextView transport_tv = infoWindow.findViewById(R.id.transport);
-
-                    name_tv.setText(marker.getTitle());
-                    details_tv.setText(marker.getSnippet());
-
-                    InfoWindowData infoWindowData = new InfoWindowData();
-                    Location_information newone = new Location_information();
-
-                    //RatingBar ratBar = (RatingBar) infoWindow.findViewById(R.id.ratingBar);
-                    //ratBar.setRating((float)2.5);
-                    TextView tv = (TextView) infoWindow.findViewById(R.id.tv);
-                    tv.setText("2.5");
-
-                    newone = (Location_information)marker.getTag();
-
-                    if(newone.getTel_num().equals(""))
+                    InfoWindowData newone = (InfoWindowData)marker.getTag();
+                    if(newone == null)
                     {
-                        ImageView v = infoWindow.findViewById(R.id.telephone);
-                        v.setVisibility(View.INVISIBLE);
+                        my_location.setLayoutParams(new RelativeLayout.LayoutParams(150,RelativeLayout.LayoutParams.WRAP_CONTENT));
+                        TextView textView = my_location.findViewById(R.id.my_location);
+                        textView.setText("내위치");
+                        return my_location;
                     }
-                    else
-                    {
-                        infoWindow.setVisibility(View.VISIBLE);
+                    else {
+                        infoWindow.setLayoutParams(new RelativeLayout.LayoutParams(900, RelativeLayout.LayoutParams.WRAP_CONTENT));
+
+                        TextView name_tv = infoWindow.findViewById(R.id.name);
+                        TextView details_tv = infoWindow.findViewById(R.id.details);
+                        // ImageView img = view.findViewById(R.id.pic);
+                        TextView hotel_tv = infoWindow.findViewById(R.id.hotels);
+                        TextView food_tv = infoWindow.findViewById(R.id.food);
+                        TextView transport_tv = infoWindow.findViewById(R.id.transport);
+                        TextView tv = (TextView) infoWindow.findViewById(R.id.tv);
+                        RatingBar ratingBar = (RatingBar) infoWindow.findViewById(R.id.ratingBar);
+
+                        transport_tv.setText(newone.getTelnum());
+                        name_tv.setText(newone.getTitle());
+                        details_tv.setText(newone.getaddress());
+                        hotel_tv.setText(newone.getbigsmalltype());
+                        food_tv.setText(newone.getTime());
+                        ratingBar.setRating(Float.valueOf(newone.getRating()));
+
+
+                        //RatingBar ratBar = (RatingBar) infoWindow.findViewById(R.id.ratingBar);
+                        //ratBar.setRating((float)2.5);
+                        if (newone.getTelnum().equals("")) {
+                            ImageView v = infoWindow.findViewById(R.id.telephone);
+                            v.setVisibility(View.INVISIBLE);
+                        } else {
+                            infoWindow.setVisibility(View.VISIBLE);
+                        }
+                        //int imageId = SearchActivity.this.getResources().getIdentifier(infoWindowData.getImage().toLowerCase(),"drawable", SearchActivity.this.getPackageName());
+                        //  img.setImageResource(imageId);
+                        return infoWindow;
                     }
-                    String big_small_type = newone.getBigtype() + "  "+newone.getSmalltype();
-                    infoWindowData.setHotel(big_small_type);
-
-
-
-                    int imageId = SearchActivity.this.getResources().getIdentifier(infoWindowData.getImage().toLowerCase(),"drawable", SearchActivity.this.getPackageName());
-                    //  img.setImageResource(imageId);
-
-                    infoWindowData.setFood(newone.getTime());
-                    infoWindowData.setTransport(newone.getTel_num());
-
-
-
-                    hotel_tv.setText(infoWindowData.getHotel());
-                    food_tv.setText(infoWindowData.getFood());
-                    transport_tv.setText(infoWindowData.getTransport());
-
-
-                    return infoWindow;
                 }
             });
         }

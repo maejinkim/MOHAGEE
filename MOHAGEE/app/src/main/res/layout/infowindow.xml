@@ -28,6 +28,18 @@
         android:src="@drawable/line"
         app:layout_constraintTop_toBottomOf="@+id/name" />
 
+    <RatingBar
+        android:id="@+id/ratingBar"
+        style="@style/customRatingBar"
+        android:layout_width="81dp"
+        android:layout_height="16dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="18dp"
+        android:numStars="5"
+        android:stepSize="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/line" />
     <ImageView
         android:id="@+id/directions"
         android:layout_width="20dp"

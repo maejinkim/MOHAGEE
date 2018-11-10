@@ -7,12 +7,12 @@ public class Location_information {
     private String smalltype = "";          //소분류
     private ArrayList<String> themes;       //테마들
     private int order;                      //순서
-    private String withwho;
-    private String tel_num;
-    private String rating;
-    private String address;
-    private String time;
-    private String name;
+    private String withwho = "";
+    private String tel_num = "";
+    private String rating ="";
+    private String address = "";
+    private String time = "";
+    private String name = "";
 
     public String getName() {
         return name;
@@ -65,7 +65,9 @@ public class Location_information {
     }
 
     public Location_information()
-    {}
+    {
+        tel_num = "";
+    }
 
 
     public Location_information(String big, String small, ArrayList<String> theme)
