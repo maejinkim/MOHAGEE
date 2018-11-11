@@ -3,12 +3,11 @@ package com.example.maedin.mohagee.item;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.ArrayList;
-
 public class PlaceItem implements Parcelable {
 
     private String id;
     private String name;
+    private String big_cat,time;
     private String category;
     private String theme;
     private String address;
@@ -34,6 +33,22 @@ public class PlaceItem implements Parcelable {
     public PlaceItem()
     {
 
+    }
+
+    public String getBig_cat() {
+        return big_cat;
+    }
+
+    public void setBig_cat(String big_cat) {
+        this.big_cat = big_cat;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 
     public PlaceItem(Parcel in)

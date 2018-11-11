@@ -20,6 +20,8 @@ public class CustomListAdapter extends BaseAdapter {
     private ArrayList<PlaceItem> checkList = null;
     private int listCnt = 0;
 
+    private boolean allChecked = false;
+
     LayoutInflater inflater = null;
 
     //생성자 : 데이터 셋팅
@@ -68,6 +70,12 @@ public class CustomListAdapter extends BaseAdapter {
         category.setText(temp.getCategory());
         theme.setText(temp.getTheme());
 
+        if (allChecked)
+            checkBox.setChecked(true);
+        else
+            checkBox.setChecked(false);
+
+
         //아이템 클릭시
         convertView.setOnClickListener(new View.OnClickListener()
         {
@@ -92,6 +100,11 @@ public class CustomListAdapter extends BaseAdapter {
         return convertView;
     }
 
+    public void setAllChecked(boolean allChecked)
+    {
+        this.allChecked = allChecked;
+    }
+
     @Override
     public long getItemId(int position) {
         return position;
@@ -106,6 +119,11 @@ public class CustomListAdapter extends BaseAdapter {
     public ArrayList<PlaceItem> getCheckList()
     {
         return checkList;
+    }
+
+    public void clearCheckList()
+    {
+        checkList.clear();
     }
 
 }

@@ -1,6 +1,7 @@
 package com.example.maedin.mohagee.fragment;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.maedin.mohagee.R;
@@ -42,10 +44,13 @@ public class CustomFragment extends Fragment implements View.OnClickListener{
     ArrayList<PlaceItem> placeList = null;
     ArrayList<PlaceItem> checkList = null;
 
-    Button btnResult;
+    boolean allchecked = false;
+
+    Button btnResult, btnAll, btnAllDelete, btnDelete;
 
     private ListView listView;
     private CustomListAdapter adapter;
+    private TextView txtInfo;
 
     private ServerThread serverThread = ServerThread.getInstance();
     private String myResult;
@@ -59,86 +64,27 @@ public class CustomFragment extends Fragment implements View.OnClickListener{
         view = inflater.inflate(R.layout.fragment_custom, container, false);
 
         btnResult = view.findViewById(R.id.btn_custom_result);
+        btnAll = view.findViewById(R.id.custom_all);
+        btnAllDelete = view.findViewById(R.id.custom_all_delete);
+        btnDelete = view.findViewById(R.id.custom_selete_delete);
+        txtInfo = view.findViewById(R.id.txt_custom_info);
+
+
         btnResult.setOnClickListener(this);
+        btnAll.setOnClickListener(this);
+        btnAllDelete.setOnClickListener(this);
+        btnDelete.setOnClickListener(this);
 
         serverThread.setFgHandler(mHandler);
+
+        listView = (ListView) view.findViewById(R.id.custom_list);
 
 
         getCustomList();
 
-//        placeList = new ArrayList<>();
-//        PlaceItem temp = new PlaceItem();
-//        temp.setId("loc_id");
-//        temp.setName("loc_name");
-//        temp.setCategory("small_ctg");
-//        temp.setTheme("#theme1#theme2#theme3");
-//        placeList.add(temp);
-
-        listView = (ListView) view.findViewById(R.id.custom_list);
-        if(placeList!=null) {
-            adapter = new CustomListAdapter(placeList);
-            listView.setAdapter(adapter);
-        }
-
         return view;
     }
 
-
-
-    private Handler mHandler = new Handler() {
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            if (msg.obj.toString().equals(""))//즐찾한 장소가 하나도 없으면
-            {
-                Log.d("Custom", "didn't find any place");
-
-            } else {
-                //로그로 확인
-                Log.d("Custom", msg.obj.toString());
-                placeList = new ArrayList<>();
-
-                try {
-
-                    JSONObject object = new JSONObject(msg.obj.toString());
-                    JSONArray array = new JSONArray(object.getString("bookmarks"));
-                    for(int i=0; i < array.length(); i++){
-                        try {
-                            JSONObject jObject = array.getJSONObject(i);  // JSONObject 추출
-                            PlaceItem temp = new PlaceItem();
-                            temp.setId(jObject.getString("loc_id"));
-                            temp.setName(jObject.getString("loc_name"));
-                            temp.setCategory(jObject.getString("small_ctg"));
-                            temp.setLat(jObject.getString("latitude"));
-                            temp.setLng(jObject.getString("longitude"));
-                            if(jObject.getString("theme1")=="null")
-                            {
-                                temp.setTheme("#"+"저렴"+" #"+"분위기"+" #"+"감성");
-
-                            }
-                            else
-                            {
-                                temp.setTheme("#"+jObject.getString("theme1")+" #"+jObject.getString("theme2")+" #"+jObject.getString("theme3"));
-
-                            }
-                            placeList.add(temp);
-
-                        }catch (JSONException e)
-                        {
-
-                        }
-                    }
-                    if(array.length() != 0) {
-                        adapter = new CustomListAdapter(placeList);
-                        listView.setAdapter(adapter);
-                    }
-                }
-                catch (JSONException e)
-                {
-
-                }
-            }
-        }
-    };
 
     @Override
     public void onClick(View v) {
@@ -154,6 +100,36 @@ public class CustomFragment extends Fragment implements View.OnClickListener{
                 {
                     dialogSelect();
                 }
+                break;
+            case R.id.custom_selete_delete:
+                checkList = adapter.getCheckList();
+                if(checkList.size() == 0)
+                {
+                    Toast.makeText(getContext(), "선택한 장소가 없습니다.", Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    dialogDelete();
+                }
+                break;
+            case R.id.custom_all_delete:
+                dialogAllDelete();
+                break;
+            case R.id.custom_all:
+                if (!allchecked)
+                {
+                    btnAll.setText("전체선택 해제");
+                    allchecked = true;
+                }
+                else
+                {
+                    btnAll.setText("전체선택");
+                    allchecked = false;
+                }
+
+                adapter.setAllChecked(allchecked);
+                adapter.notifyDataSetChanged();
+
                 break;
 
         }
@@ -186,6 +162,53 @@ public class CustomFragment extends Fragment implements View.OnClickListener{
         dlg.show();
     }
 
+    private void dialogDelete()
+    {
+        AlertDialog.Builder dlg = new AlertDialog.Builder(getContext());
+        dlg.setTitle("리스트에서 삭제");
+        dlg.setMessage("선택한 장소를 리스트에서 삭제하시겠습니까?");
+        dlg.setCancelable(false);
+        dlg.setPositiveButton("삭제", new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Message msg = new Message();
+                msg.what = 10;
+                String loc_id = "";
+
+                for(int i = 0; i < checkList.size(); i++)
+                {
+                    if (i > 0)
+                        loc_id+=",";
+
+                    loc_id+=checkList.get(i).getId();
+                }
+                serverThread.setDeleteCustom(((App)getActivity().getApplication()).getUser().getId(),loc_id,myResult);
+                serverThread.getFgHandler().sendMessage(msg);
+            }
+        });
+        dlg.setNegativeButton("취소", null);
+        dlg.show();
+    }
+
+    private void dialogAllDelete()
+    {
+        AlertDialog.Builder dlg = new AlertDialog.Builder(getContext());
+        dlg.setTitle("리스트에서 전체 삭제");
+        dlg.setMessage("모든 장소를 리스트에서 삭제하시겠습니까?");
+        dlg.setCancelable(false);
+        dlg.setPositiveButton("삭제", new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Message msg = new Message();
+                msg.what = 9;
+                serverThread.setAllDeleteCustom(((App)getActivity().getApplication()).getUser().getId(),myResult);
+                serverThread.getFgHandler().sendMessage(msg);
+            }
+        });
+        dlg.setNegativeButton("취소", null);
+        dlg.show();
+    }
+
     private void getResult()
     {
         try{
@@ -196,6 +219,12 @@ public class CustomFragment extends Fragment implements View.OnClickListener{
                 JSONObject temp = new JSONObject();
                 temp.put("latitude",checkList.get(i).getLat());
                 temp.put("longitude",checkList.get(i).getLng());
+                temp.put("loc_addr",checkList.get(i).getAddress());
+                temp.put("loc_time",checkList.get(i).getTime());
+                temp.put("loc_name",checkList.get(i).getName());
+                temp.put("big_ctg",checkList.get(i).getBig_cat());
+                temp.put("small_ctg",checkList.get(i).getCategory());
+                temp.put("star",checkList.get(i).getStar());
                 newsend.put(temp);
             }
 
@@ -235,4 +264,69 @@ public class CustomFragment extends Fragment implements View.OnClickListener{
         serverThread.setCustomList(((App)getActivity().getApplication()).getUser().getId(),myResult);
         serverThread.getFgHandler().sendMessage(msg);
     }
+
+    private Handler mHandler = new Handler() {
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+
+            if (msg.obj.toString().equals("delete Bookmarks success!\n"))
+            {
+                getCustomList();
+            }
+            else if (msg.obj.toString().equals("delete All Bookmark success!\n"))
+            {
+                getCustomList();
+            }
+            else {
+                //로그로 확인
+                Log.d("Custom", msg.obj.toString());
+                placeList = new ArrayList<>();
+
+
+                try {
+
+                    JSONObject object = new JSONObject(msg.obj.toString());
+                    JSONArray array = new JSONArray(object.getString("bookmarks"));
+                    for(int i=0; i < array.length(); i++){
+                        try {
+                            JSONObject jObject = array.getJSONObject(i);  // JSONObject 추출
+                            PlaceItem temp = new PlaceItem();
+                            temp.setId(jObject.getString("loc_id"));
+                            temp.setName(jObject.getString("loc_name"));
+                            temp.setCategory(jObject.getString("small_ctg"));
+                            temp.setTime(jObject.getString("loc_time"));
+                            temp.setBig_cat(jObject.getString("big_ctg"));
+                            temp.setAddress(jObject.getString("loc_addr"));
+                            temp.setLat(jObject.getString("latitude"));
+                            temp.setLng(jObject.getString("longitude"));
+                            temp.setStar(jObject.getString("star"));
+                            if(jObject.getString("theme1")=="null")
+                            {
+                                temp.setTheme("#"+"저렴"+" #"+"분위기"+" #"+"감성");
+
+                            }
+                            else
+                            {
+                                temp.setTheme("#"+jObject.getString("theme1")+" #"+jObject.getString("theme2")+" #"+jObject.getString("theme3"));
+
+                            }
+                            placeList.add(temp);
+
+                        }catch (JSONException e)
+                        {
+
+                        }
+                    }
+                    adapter = new CustomListAdapter(placeList);
+                    listView.setAdapter(adapter);
+                    if (placeList.size() == 0)
+                        txtInfo.setVisibility(View.VISIBLE);
+                }
+                catch (JSONException e)
+                {
+
+                }
+            }
+        }
+    };
 }

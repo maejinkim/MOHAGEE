@@ -70,15 +70,33 @@
 
         </LinearLayout>
 
-        <ListView
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:id="@+id/custom_list"
-            android:layout_height="400dp"
-            android:choiceMode="multipleChoice">
-        </ListView>
+            android:layout_height="match_parent">
+
+            <ListView
+                android:layout_width="match_parent"
+                android:id="@+id/custom_list"
+                android:layout_height="match_parent"
+                android:choiceMode="multipleChoice">
+            </ListView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="장소가 존재하지 않습니다."
+                android:visibility="invisible"
+                android:id="@+id/txt_custom_info"
+                android:gravity="center"/>
+
+        </RelativeLayout>
+
 
 
     </LinearLayout>
+
+
 
 
 
