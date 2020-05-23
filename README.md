@@ -49,3 +49,11 @@ We chose a three-tier model that puts the application server between the client 
 
 You can see the demo video on [Youtube](https://youtu.be/WwgLIeJR2jw).
 
+
+
+
+---
+
+README by [joohee](https://github.com/victoriagjh) of mohagee team.
+
+
